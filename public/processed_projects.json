@@ -1,0 +1,338 @@
+[
+  {
+    "project_name": "Miratorg x TutkovBudkov // Золотой наггетс",
+    "stage": "постпродакшн",
+    "documents": {
+      "status": "Ждёт согласования⚠️",
+      "date": "07.10.2025"
+    },
+    "storyboard": {
+      "status": "На доработке",
+      "date": "03.10.2025"
+    },
+    "ai": {
+      "status": "В работе",
+      "date": "07.10.2025"
+    },
+    "casting": {
+      "status": "На доработке",
+      "date": "10.09.2025"
+    },
+    "location": {
+      "status": "Ждёт согласования⚠️",
+      "date": "30.09.2025"
+    },
+    "props": {
+      "status": "В работе",
+      "date": "07.10.2025"
+    },
+    "clothes": {
+      "status": "Утверждено",
+      "date": "10.09.2025"
+    },
+    "editing": {
+      "status": "В работе",
+      "date": "24.09.2025"
+    },
+    "voice": {
+      "status": "Ждёт согласования⚠️",
+      "date": "04.10.2025"
+    },
+    "music": {
+      "status": "Утверждено",
+      "date": "07.10.2025"
+    },
+    "color": {
+      "status": "В работе",
+      "date": "02.10.2025"
+    },
+    "ProcessingPhotos": {
+      "status": "Ждёт согласования⚠️",
+      "date": "03.10.2025"
+    },
+    "cg": {
+      "status": "Ждёт согласования⚠️",
+      "date": "03.10.2025"
+    }
+  },
+  {
+    "project_name": "Vkusvill // Почувствуй Новый Год",
+    "stage": "постпродакшн",
+    "documents": {
+      "status": "В работе",
+      "date": "01.10.2025"
+    },
+    "storyboard": {
+      "status": "Ждёт согласования⚠️",
+      "date": "25.09.2025"
+    },
+    "ai": {
+      "status": "На доработке",
+      "date": "23.09.2025"
+    },
+    "casting": {
+      "status": "В работе",
+      "date": "25.09.2025"
+    },
+    "location": {
+      "status": "На доработке",
+      "date": "23.09.2025"
+    },
+    "props": {
+      "status": "Ждёт согласования⚠️",
+      "date": "25.09.2025"
+    },
+    "clothes": {
+      "status": "В работе",
+      "date": "26.09.2025"
+    },
+    "editing": {
+      "status": null,
+      "date": null
+    },
+    "voice": {
+      "status": "В работе",
+      "date": "10.10.2025"
+    },
+    "music": {
+      "status": "Ждёт согласования⚠️",
+      "date": "07.10.2025"
+    },
+    "color": {
+      "status": null,
+      "date": null
+    },
+    "ProcessingPhotos": {
+      "status": null,
+      "date": null
+    },
+    "cg": {
+      "status": "В работе",
+      "date": "08.10.2025"
+    }
+  },
+  {
+    "project_name": "Сказочный робот",
+    "stage": "препродакшн",
+    "documents": {
+      "status": "В работе",
+      "date": ""
+    },
+    "storyboard": {
+      "status": "Ждёт согласования⚠️",
+      "date": "07.10.2025"
+    },
+    "ai": {
+      "status": "Не могу определить статус",
+      "date": ""
+    },
+    "casting": {
+      "status": "Не могу определить статус",
+      "date": ""
+    },
+    "location": {
+      "status": "Не могу определить статус",
+      "date": ""
+    },
+    "props": {
+      "status": "Ждёт согласования⚠️",
+      "date": ""
+    },
+    "clothes": {
+      "status": "Не могу определить статус",
+      "date": ""
+    },
+    "editing": {
+      "status": "В работе",
+      "date": "07.10.2025"
+    },
+    "voice": {
+      "status": "Утверждено",
+      "date": "07.10.2025"
+    },
+    "music": {
+      "status": "Утверждено",
+      "date": "11.08.2025"
+    },
+    "color": {
+      "status": "Ждёт согласования⚠️",
+      "date": "07.10.2025"
+    },
+    "ProcessingPhotos": {
+      "status": "Дальнейших работ по аспекту 'фотографии' не требуется",
+      "date": "07.10.2025"
+    },
+    "cg": {
+      "status": "Утверждено",
+      "date": "07.10.2025"
+    }
+  },
+  {
+    "project_name": "PIK x BBDO // Серия плюс 2025",
+    "stage": "постпродакшн",
+    "documents": {
+      "status": "Ждёт согласования⚠️",
+      "date": "02.10.2025"
+    },
+    "storyboard": {
+      "status": "Утверждено",
+      "date": "02.10.2025"
+    },
+    "ai": {
+      "status": "Утверждено",
+      "date": "02.10.2025"
+    },
+    "casting": {
+      "status": "Утверждено",
+      "date": "02.10.2025"
+    },
+    "location": {
+      "status": "Утверждено",
+      "date": "02.10.2025"
+    },
+    "props": {
+      "status": "В работе",
+      "date": "07.10.2025"
+    },
+    "clothes": {
+      "status": "Утверждено",
+      "date": "06.09.2025"
+    },
+    "editing": {
+      "status": "Утверждено",
+      "date": "02.10.2025"
+    },
+    "voice": {
+      "status": "Утверждено",
+      "date": "02.10.2025"
+    },
+    "music": {
+      "status": "Утверждено",
+      "date": "02.10.2025"
+    },
+    "color": {
+      "status": "Утверждено",
+      "date": "29.09.2025"
+    },
+    "ProcessingPhotos": {
+      "status": "Ждёт согласования⚠️",
+      "date": "07.10.2025"
+    },
+    "cg": {
+      "status": "Утверждено",
+      "date": "02.10.2025"
+    }
+  },
+  {
+    "project_name": "The Clients // Яндекс Книги",
+    "stage": "постпродакшн",
+    "documents": {
+      "status": "Ждёт согласования⚠️",
+      "date": "30.09.2025"
+    },
+    "storyboard": {
+      "status": "В работе",
+      "date": "12.09.2025"
+    },
+    "ai": {
+      "status": "Ждёт согласования⚠️",
+      "date": "22.09.2025"
+    },
+    "casting": {
+      "status": "Ждёт согласования⚠️",
+      "date": "08.09.2025"
+    },
+    "location": {
+      "status": "Ждёт согласования⚠️",
+      "date": "20.08.2025"
+    },
+    "props": {
+      "status": "Утверждено",
+      "date": "23.09.2025"
+    },
+    "clothes": {
+      "status": "В работе",
+      "date": "15.08.2025"
+    },
+    "editing": {
+      "status": "Ждёт согласования⚠️",
+      "date": "23.09.2025"
+    },
+    "voice": {
+      "status": "На доработке",
+      "date": "22.09.2025"
+    },
+    "music": {
+      "status": "В работе",
+      "date": "23.09.2025"
+    },
+    "color": {
+      "status": "Утверждено",
+      "date": "22.09.2025"
+    },
+    "ProcessingPhotos": {
+      "status": "Утверждено",
+      "date": "19.09.2025"
+    },
+    "cg": {
+      "status": "Ждёт согласования⚠️",
+      "date": "23.09.2025"
+    }
+  },
+  {
+    "project_name": "Росгосстрах",
+    "stage": "постпродакшн",
+    "documents": {
+      "status": "В работе",
+      "date": "16.09.2025"
+    },
+    "storyboard": {
+      "status": "Утверждено",
+      "date": "03.10.2025"
+    },
+    "ai": {
+      "status": "В работе",
+      "date": "07.10.2025"
+    },
+    "casting": {
+      "status": null,
+      "date": null
+    },
+    "location": {
+      "status": null,
+      "date": null
+    },
+    "props": {
+      "status": null,
+      "date": null
+    },
+    "clothes": {
+      "status": null,
+      "date": null
+    },
+    "editing": {
+      "status": "В работе",
+      "date": "07.10.2025"
+    },
+    "voice": {
+      "status": "В работе",
+      "date": "03.10.2025"
+    },
+    "music": {
+      "status": "Утверждено",
+      "date": "03.10.2025"
+    },
+    "color": {
+      "status": "Ждёт согласования⚠️",
+      "date": "24.09.2025"
+    },
+    "ProcessingPhotos": {
+      "status": "В работе",
+      "date": "07.10.2025"
+    },
+    "cg": {
+      "status": "В работе",
+      "date": "03.10.2025"
+    }
+  }
+]

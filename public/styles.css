@@ -1,0 +1,378 @@
+@font-face {
+    font-family: 'TT Hoves Pro';
+    src: url('/fonts/woff2/TT_Hoves_Pro_Regular.woff2') format('woff2'),
+         url('/fonts/woff/TT_Hoves_Pro_Regular.woff') format('woff');
+    font-weight: 100;
+    font-style: normal;
+    font-display: swap;
+  }
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'TT Hoves Pro', sans-serif;
+    background-color: var(--tg-theme-bg-color, #ffffff);
+    color: var(--tg-theme-text-color, #000000);
+    line-height: 1.4;
+    -webkit-user-select: none;
+    user-select: none;
+    overflow-x: hidden;
+}
+
+#app {
+    width: 100%;
+    min-height: 100vh;
+    position: relative;
+}
+
+.screen {
+    width: 100%;
+    min-height: 100vh;
+    padding: 16px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform: translateX(100%);
+    transition: transform 0.3s ease;
+    background-color: var(--tg-theme-bg-color, #ffffff);
+}
+
+.screen.active {
+    transform: translateX(0);
+}
+
+.screen.prev {
+    transform: translateX(-100%);
+}
+
+/* Header */
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    padding: 8px 0;
+    justify-content: flex-start;
+    margin-right: 5px;
+}
+
+.header h1 {
+    margin-left: 5px;
+    font-size: 24px;
+    font-weight: 500;
+    color: var(--tg-theme-text-color, #000000);
+}
+
+.back-btn {
+    width: 40px;
+    height: 28px;
+}
+
+.menu-dots {
+    font-size: 20px;
+    color: var(--tg-theme-hint-color, #999999);
+    cursor: pointer;
+    padding: 8px;
+}
+
+/* Projects List */
+.projects-container {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.project-card {
+    background: var(--tg-theme-secondary-bg-color, #f8f9fa);
+    border: 1px solid var(--tg-theme-hint-color, rgba(0, 0, 0, 0.1));
+    border-radius: 12px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.project-card:active {
+    transform: scale(0.98);
+    background: var(--tg-theme-hint-color, rgba(0, 0, 0, 0.05));
+}
+
+.project-info h3 {
+    font-size: 20px;
+    font-weight: 200;
+    color: var(--tg-theme-text-color, #000000);
+    margin-bottom: 4px;
+}
+
+.project-date {
+    font-size: 14px;
+    color: var(--tg-theme-hint-color, #666666);
+}
+
+.project-arrow {
+    width: 50px;
+    height: 30px;
+}
+.project-arrow-icon {
+    width: 40px;
+    height: 28px;
+  }
+
+/* Section */
+.section {
+    margin-bottom: 32px;
+}
+
+.section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+
+}
+
+.section-header h2 {
+    font-size: 16px;
+    font-weight: 200;
+    color: var(--tg-theme-text-color, #000000);
+}
+
+.progress-text {
+    font-size: 16px;
+    font-weight: 200;
+    color: var(--tg-theme-text-color, #000000);
+}
+
+.collapse-btn {
+    background: none;
+    border: none;
+    font-size: 16px;
+    color: var(--tg-theme-hint-color, #999999);
+    cursor: pointer;
+    padding: 4px;
+}
+
+/* Progress Bar */
+.progress-bar {
+    width: 100%;
+    height: 8px;
+    background-color: var(--tg-theme-hint-color, rgba(0, 0, 0, 0.1));
+    border-radius: 4px;
+    margin-bottom: 16px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    background-color:  #000000;
+    border-radius: 4px;
+    transition: width 0.3s ease;
+}
+
+
+
+.task-card {
+    background: var(--tg-theme-secondary-bg-color, #f8f9fa);
+    border: 1px solid var(--tg-theme-hint-color, rgba(0, 0, 0, 0.1));
+    border-radius: 12px;
+    padding: 16px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    min-height: 80px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100px;
+}
+
+.task-card:active {
+    transform: scale(0.98);
+    background: var(--tg-theme-hint-color, rgba(0, 0, 0, 0.05));
+}
+
+.task-card h3 {
+    font-family: 'TT Hoves Pro', sans-serif;
+    font-size: 20px;
+    color: var(--tg-theme-text-color, #000000);
+    margin-top: 4px;
+    font-weight: 100;
+}
+.tasks-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    align-items: start;    /* верхнее выравнивание ячеек */
+  }
+.task-status.approved {
+    color: #34C759;
+}
+
+.task-status.pending {
+    color: #FF9500;
+}
+
+.task-status.rejected {
+    color: #FF3B30;
+}
+
+.task-status.not-started {
+    color: var(--tg-theme-hint-color, #999999);
+}
+
+/* Task Detail */
+.task-detail-content {
+    padding-top: 8px;
+}
+
+.deadline {
+    font-size: 14px;
+    color: #34C759;
+    margin-bottom: 24px;
+    font-weight: 200;
+}
+
+.link-section {
+    margin-bottom: 32px;
+}
+
+.link-card {
+    background: var(--tg-theme-secondary-bg-color, rgba(255, 105, 180, 0.1));
+    border: 1px solid rgba(255, 105, 180, 0.3);
+    border-radius: 12px;
+    padding: 16px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.link-card:active {
+    transform: scale(0.98);
+    background: rgba(255, 105, 180, 0.2);
+}
+
+.link-text {
+    color: #FF69B4;
+    font-size: 14px;
+    font-weight: 200;
+}
+
+.actors-section h3 {
+    font-size: 16px;
+    font-weight: 200;
+    color: var(--tg-theme-text-color, #000000);
+    margin-bottom: 16px;
+}
+
+.actor-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.actor-item {
+    background: var(--tg-theme-secondary-bg-color, #f8f9fa);
+    border: 1px solid var(--tg-theme-hint-color, rgba(0, 0, 0, 0.1));
+    border-radius: 12px;
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.actor-item:active {
+    transform: scale(0.98);
+    background: var(--tg-theme-hint-color, rgba(0, 0, 0, 0.05));
+}
+
+.actor-item span {
+    font-size: 14px;
+    color: var(--tg-theme-text-color, #000000);
+}
+
+.arrow {
+    color: #FF69B4 !important;
+    font-weight: 500;
+}
+
+/* Collapsed sections */
+.section.collapsed .tasks-grid {
+    display: none;
+}
+
+.section.collapsed .progress-bar {
+    display: none;
+}
+
+/* Responsive */
+@media (max-width: 320px) {
+    .tasks-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Dark theme support */
+@media (prefers-color-scheme: dark) {
+    body {
+        background-color: #1a1a1a;
+        color: #ffffff;
+    }
+
+    .project-card, .task-card, .actor-item {
+        background: #2a2a2a;
+        border-color: rgba(255, 255, 255, 0.1);
+    }
+
+    .progress-bar {
+        background-color: rgba(255, 255, 255, 0.1);
+    }
+}
+
+.task-status {
+    margin-top: 4px;
+    font-size: 15px;
+  }
+  
+  .task-date {
+    display: block;
+    color:#000000;
+    font-size: 10px;
+    opacity: 0.7;
+    margin-top: 2px;
+  }
+  
+  .status-approved {
+    color: #32BA62;
+  }
+  
+  .status-in-progress {
+    color: #FFDD00;
+  }
+  .status-unknown {
+    color: #9E9E9E;
+  }
+  .status-in-approved{
+    color: #D93232;
+  }
+
+.section { margin-bottom: 24px; }
+.section-header { display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
+.tasks-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: 12px; }
+.hidden { display: none; }
+.app-header {
+    display: flex;
+    align-items: center;
+    padding: 12px;
+    background: #fff;
+    border-bottom: 1px solid #e0e0e0;
+  }
+  
+.project-logo {
+    height: 30px;
+    margin: 0 auto;
+  }

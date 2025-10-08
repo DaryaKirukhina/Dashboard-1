@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>Дашборд видеопродакшн проектов</title>
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<header class="app-header">
+  <img id="projectLogo" src="/LOGO_RGB_black.png" alt="Project Logo" class="project-logo" />
+</header>
+<body>
+  <div id="app">
+
+    <!-- Project List Screen -->
+    <div class="screen active" id="projectListScreen">
+      <div class="header">
+        <h1>Мои проекты</h1>
+      </div>
+      <div class="projects-container" id="projectsContainer">
+        <!-- Сюда динамически вставляются карточки проектов -->
+      </div>
+    </div>
+
+    <!-- Project Detail Screen -->
+<div class="screen" id="projectDetailScreen">
+  <div class="header">
+    <img src="/arrow-fold-back.png" alt="Назад" class="back-btn" onclick="goBack()"
+/>
+  </div>
+  <div class="stage-container">
+    <h2 id="stageHeader"></h2>
+  </div>
+  <!-- Pre-production Section -->
+  <div class="section">
+    <div class="section-header" onclick="toggleSection('pre')">
+      <h2>Pre-production <span id="prePercent">100%</span></h2>
+      <button class="collapse-btn" id="preCollapseBtn">∨</button>
+    </div>
+    <div class="progress-bar">
+      <div class="progress-fill" id="preProgressBar"></div>
+    </div>
+    <div class="tasks-grid" id="preTasksContainer"></div>
+  </div>
+
+  <!-- Post-production Section -->
+  <div class="section">
+    <div class="section-header" onclick="toggleSection('post')">
+      <h2>Post-production <span id="postPercent">0%</span></h2>
+      <button class="collapse-btn" id="postCollapseBtn">∧</button>
+    </div>
+    <div class="progress-bar">
+      <div class="progress-fill" id="postProgressBar"></div>
+    </div>
+    <div class="tasks-grid" id="tasksGrid"></div>
+  </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
