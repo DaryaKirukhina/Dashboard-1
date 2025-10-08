@@ -1,2 +1,6 @@
 .env
 projects_with_clients.json
+node_modules/
+output.json
+database-formation.json
+service-account-key.json
