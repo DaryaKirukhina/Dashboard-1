@@ -1,29 +1,34 @@
+require('dotenv').config();
 const express = require('express');
 const path = require('path');
-const fs = require('fs').promises;  // промисифицированный fs
+const fs = require('fs').promises;
+const cron = require('node-cron');
+const { fork } = require('child_process');
+
 const app = express();
 const port = process.env.PORT || 3000;
 
 // Путь к файлу со статусами
 const STATUS_FILE = path.join(__dirname, 'public', 'processed_projects.json');
 const PROJECTS_FILE = path.join(__dirname, 'public', 'projects_with_clients.json');
+const OUTPUT_FILE   = path.join(__dirname, 'public', 'output.json');
 
 // Разрешаем парсить JSON-тела
 app.use(express.json({ limit: '10mb' }));
 
 // Отдаём статику из папки public
 app.use(express.static(path.join(__dirname, 'public')));
+
 app.get('/api/projects', (_,res)=> {
     res.sendFile(path.join(__dirname,'public','projects_with_clients.json'));
   });
-  app.get('/api/statuses', (_,res)=> {
+app.get('/api/statuses', (_,res)=> {
     res.sendFile(path.join(__dirname,'public','processed_projects.json'));
   });
-  app.get('/api/output', (_,res)=> {
+app.get('/api/output', (_,res)=> {
     res.sendFile(path.join(__dirname,'public','output.json'));
   });
 
-// Эндпоинт для получения статусов
 app.get('/api/processed-projects', async (req, res) => {
   try {
     const data = await fs.readFile(STATUS_FILE, 'utf-8');
@@ -63,7 +68,26 @@ app.put('/api/projects', async (req, res) => {
     }
   });
 
-// Запуск сервера
-app.listen(port, '0.0.0.0', () => {
-    console.log(`Server running at http://0.0.0.0:${port}`);
+function runScript(name) {
+    return new Promise((resolve, reject) => {
+      const proc = fork(path.join(__dirname, name));
+      proc.on('exit', code => code === 0 ? resolve() : reject(new Error(`${name} exited ${code}`)));
+      proc.on('error', reject);
+    });
+  }
+cron.schedule('0 */4 * * *', async () => {
+    console.log('Cron запуск в', new Date());
+    try {
+      await runScript('database-formation.js');
+      await runScript('llm.js');
+      await runScript('google.js');
+      console.log('Cron завершён в', new Date());
+    } catch (err) {
+      console.error('Ошибка в cron:', err);
+    }
+  }, { timezone: 'Europe/Moscow' });
+  
+  // Запуск сервера
+  app.listen(port, () => {
+    console.log(`Server запущен на http://0.0.0.0:${port}`);
   });
