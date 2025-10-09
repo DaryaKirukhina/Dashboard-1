@@ -1,5 +1,5 @@
 const tg = window.Telegram.WebApp;
-const currentTgId = 878533286;
+const currentTgId = parseInt(tg.initDataUnsafe.user.id, 10);
 let admin = 489599665;
 console.log('Using Telegram ID:', currentTgId);
 
