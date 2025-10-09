@@ -1,5 +1,5 @@
 const tg = window.Telegram.WebApp;
-const currentTgId = parseInt(tg.initDataUnsafe.user.id, 10);
+const currentTgId = 878533286;
 let admin = 489599665;
 console.log('Using Telegram ID:', currentTgId);
 
@@ -562,6 +562,7 @@ async function renderPreTasks(proj) {
     console.log('работает фнукция renderTaskDetail')
     const { address, photo, photos = [] } = getTaskStatus(projectName, taskId);
     const linksEl = document.getElementById('taskLinks');
+    const files = getTaskFiles(projectName, taskId);
     // Показываем или скрываем кнопки
     editDatesBtn.style.display = isProducer ? '' : 'none';
     saveDatesBtn.style.display = isProducer ? '' : 'none';
@@ -569,10 +570,48 @@ async function renderPreTasks(proj) {
     saveTasksBtn.style.display = isProducer ? '' : 'none';
     editTaskBtn.style.display = isProducer ? '' : 'none';
     saveTaskBtn.style.display = isProducer ? '' : 'none';
-    
+    const titleEl = document.getElementById('taskDetailTitle');
+    if (!titleEl || !linksEl) {
+      console.error('Не найдены элементы экрана деталей задачи');
+      return;
+    }
+    // Устанавливаем заголовок
+    let lowerName = taskId.charAt(0).toLowerCase() + taskId.slice(1);
+    if (lowerName === 'documents') { 
+    lowerName = 'документы';
+    }
+    if (lowerName === 'storyboard') { 
+        lowerName = 'раскадровку';
+        }
+    if (lowerName === 'color') {
+        lowerName = 'цветокоррекцию';
+        }
+    if (lowerName === 'sound') {
+        lowerName = 'озвучку';
+        }
+    if (lowerName === 'cg') {
+        lowerName = 'CG';
+        }
+    if (lowerName === 'edit') {
+        lowerName = 'монтаж';
+        }
+    if (lowerName === 'props') { 
+        lowerName = 'реквизит';
+            }
+    if (lowerName === 'wardrobe') {
+        lowerName = 'костюмы';
+        }
+    if (lowerName === 'location') {
+        lowerName = 'локацию';
+        }
+    if (lowerName === 'casting') {
+        lowerName = 'кастинг';
+        }
+    if (lowerName === 'ai') {
+        lowerName = 'AI-генерации';
+        }
     // Контейнер ссылок
-    linksEl.innerHTML = '';
-  
+    linksEl.innerHTML = ''; 
     if (taskId === 'location') {
         linksEl.innerHTML = ''; // очищаем контейнер
       
@@ -676,6 +715,26 @@ async function renderPreTasks(proj) {
       }
       container.appendChild(list);
       linksEl.appendChild(container);
+    } else {
+        if (files.length === 1) {
+            files.forEach(file => {
+              const linkCard = document.createElement('a');
+              linkCard.className = 'link-card';
+              linkCard.href = file.webViewLink;
+              linkCard.target = '_blank';
+              linkCard.rel = 'noopener noreferrer';
+              linkCard.innerHTML = `<p class="link-text">Ссылка на ${lowerName}</p>`;
+              linksEl.appendChild(linkCard);
+            });
+          } else if (files.length > 1){
+              linksEl.innerHTML = `
+          <p style="color:#E94444; text-align:center;">
+            Ошибка, невозможно получить файлы
+          </p>
+        `;
+          } else {
+            linksEl.innerHTML = '<p style="color: #999; text-align: center;">Файлы не найдены</p>';
+          }
     }
   }
   
