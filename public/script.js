@@ -1,3 +1,65 @@
+const tg = window.Telegram.WebApp;
+const currentTgId = parseInt(tg.initDataUnsafe.user.id, 10);
+let admin = 489599665;
+console.log('Using Telegram ID:', currentTgId);
+
+// 2. Функция фильтрации
+function filterProjectsByUser(allProjects, tgId) {
+    console.log('работает фнукция filterProjectsByUser')
+    return allProjects.filter(p => {
+      // проверяем основного продюсера
+      if (p.producer_id?.producer_tg_chat_id === tgId) return true;
+      // проверяем основного клиента
+      if (p.client1?.client_chat_id === tgId) return true;
+      // проверяем client2
+      if (p.client2?.client_chat_id === tgId) return true;
+      // проверяем client3
+      if (p.client3?.client_chat_id === tgId) return true;
+      // проверяем producer2 и producer3
+      if (p.producer2?.producer_tg_chat_id === tgId) return true;
+      if (p.producer3?.producer_tg_chat_id === tgId) return true;
+      return false;
+    });
+  }
+
+let editDatesBtn, saveDatesBtn, editTasksBtn, saveTasksBtn, editTaskBtn, saveTaskBtn;
+let isProducer = false, isClient = false;
+let editMode = false, editTaskMode = false;
+
+async function loadProjects() {
+    console.log('работает фнукция loadProjects')
+    const [projectsRes, statusRes, filesRes] = await Promise.all([
+      fetch('projects_with_clients.json'),
+      fetch('processed_projects.json'),
+      fetch('output.json')
+    ]);
+  
+    const allProjects = await projectsRes.json();
+    processedProjects = await statusRes.json();
+    projectFiles = await filesRes.json();
+    if (currentTgId === admin) {
+        projects = allProjects;
+      } else {
+        projects = filterProjectsByUser(allProjects, currentTgId);
+      }
+  
+    // Определяем, продюсер ли пользователь
+    isProducer = allProjects.some(p =>
+        p.producer_id?.producer_tg_chat_id === currentTgId ||
+        p.producer2?.producer_tg_chat_id === currentTgId ||
+        p.producer3?.producer_tg_chat_id === currentTgId
+      );
+      isClient = allProjects.some(p =>
+        p.client1?.client_chat_id === currentTgId ||
+        p.client2?.client_chat_id === currentTgId ||
+        p.client3?.client_chat_id === currentTgId
+      );
+      console.log('User isProducer:', isProducer, 'isClient:', isClient);
+  
+    renderProjectList();
+  }
+  
+
 const PRE_TASKS = [
     { id: 'documents', name: 'Документы' },
     { id: 'storyboard', name: 'Раскадровка' },
@@ -26,7 +88,6 @@ const STATUSES = [
     'На доработке',
     'Ждёт согласования⚠️'
 ];
-let editMode = false;
 const editedDates = new Map();
 let projects = [];
 let projectFiles = [];
@@ -35,100 +96,107 @@ let screenHistory = [];
 let currentScreen = 'projectListScreen';
 let currentProject = null;
 
-let editTaskMode = false;
 let currentTaskId = null;
 let currentProjectName = null;
 
 document.addEventListener('DOMContentLoaded', () => {
-    loadProjects();
+    tg.expand();
     setupEditControls();
+    loadProjects();
   });
-
-  function setupEditControls() {
-    // Кнопки для редактирования дат
-    const editDatesBtn = document.getElementById('editDatesBtn');
-    const saveDatesBtn = document.getElementById('saveDatesBtn');
-    // Кнопки для редактирования задач
-    const editTasksBtn = document.getElementById('editTasksBtn');
-    const saveTasksBtn = document.getElementById('saveTasksBtn');
   
-    const editTaskBtn = document.getElementById('editTaskBtn');
-    const saveTaskBtn = document.getElementById('saveTaskBtn');
-    // Проверяем, что элементы найдены
-    if (!editDatesBtn || !saveDatesBtn) {
-      console.error('Кнопки редактирования дат не найдены в DOM');
+console.log('Visible projects for user', currentTgId, projects);
+function setupEditControls() {
+    console.log('работает фнукция setupEditControls')
+    editDatesBtn = document.getElementById('editDatesBtn');
+    saveDatesBtn = document.getElementById('saveDatesBtn');
+    editTasksBtn = document.getElementById('editTasksBtn');
+    saveTasksBtn = document.getElementById('saveTasksBtn');
+    editTaskBtn  = document.getElementById('editTaskBtn');
+    saveTaskBtn  = document.getElementById('saveTaskBtn');
+    if (isProducer) {
+        editDatesBtn.style.display = ''
+        saveDatesBtn.style.display = ''
+        editTasksBtn.style.display = '';
+        saveTasksBtn.style.display = '';
+        editTaskBtn.style.display = '';
+        saveTaskBtn.style.display = '';
+    } else {
+        editDatesBtn.style.display = 'none'
+        saveDatesBtn.style.display = 'none'
+        editTasksBtn.style.display = 'none';
+        saveTasksBtn.style.display = 'none';
+        editTaskBtn.style.display = 'none';
+        saveTaskBtn.style.display = 'none';
     }
-    if (!editTasksBtn || !saveTasksBtn) {
-      console.error('Кнопки редактирования задач не найдены в DOM');
-    }
-    if (!editTaskBtn || !saveTaskBtn) {
-        console.error('Кнопки редактирования задачи не найдены');
-        return;
-      }
-    // Режим редактирования дат
     editDatesBtn.addEventListener('click', () => {
-      editMode = !editMode;
-      saveDatesBtn.disabled = !editMode;
+      if (!isProducer) return;
+      editMode = true;
+      saveDatesBtn.disabled = false;
+      editDatesBtn.disabled = true;
       renderProjectList();
     });
     saveDatesBtn.addEventListener('click', async () => {
+      if (!isProducer) return;
       await saveProjectDates();
       editMode = false;
+      editDatesBtn.disabled = false;
       saveDatesBtn.disabled = true;
       renderProjectList();
     });
-  
-    // Режим редактирования задач
     editTasksBtn.addEventListener('click', () => {
+      if (!isProducer) return;
       editMode = !editMode;
-      saveTasksBtn.disabled = !editMode;
+      saveTasksBtn.disabled = false;
+      editTasksBtn.disabled = true;
       renderPreTasks(currentProject);
       renderTasks(currentProject);
     });
     saveTasksBtn.addEventListener('click', async () => {
+      if (!isProducer) return;
       await saveTasksStatuses();
       editMode = false;
       saveTasksBtn.disabled = true;
+      editTasksBtn.disabled = false;
       renderPreTasks(currentProject);
       renderTasks(currentProject);
     });
-
     editTaskBtn.addEventListener('click', () => {
-        // Работает только для Локации
-        if (!currentTaskId) return;
-        editTaskMode = !editTaskMode;
-        saveTaskBtn.disabled = !editTaskMode;
+        if (!isProducer) return;
+        editTaskMode = true;
+        saveTaskBtn.disabled = false;
+        editTaskBtn.disabled = true;
         renderTaskDetail(currentTaskId, currentProjectName);
       });
-    
-      saveTaskBtn.addEventListener('click', async () => {
-        if (!currentTaskId) return;
-        await saveTaskStatuses();
-        editTaskMode = false;             // сбрасываем режим редактирования
+    saveTaskBtn.addEventListener('click', async () => {
+        if (!isProducer) return;
+        await saveTaskStatuses();    // делает PUT /api/processed-projects
+        editTaskMode = false;
         saveTaskBtn.disabled = true;
-        renderTaskDetail(currentTaskId, currentProjectName);      
+        editTaskBtn.disabled = false;
+        renderTaskDetail(currentTaskId, currentProjectName);
       });
-  }
-  
-  async function saveTaskStatuses() {
+    }
+async function saveTaskStatuses() {
+        // отправляем именно processedProjects с адресом
+        const res = await fetch('/api/processed-projects', {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(processedProjects)
+        });
+        if (!res.ok) console.error('Не удалось сохранить статус задачи');
+      }
+async function saveTasksStatuses() {
     await fetch('/api/processed-projects', {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(processedProjects)
     });
   }
-  async function saveTasksStatuses() {
-    await fetch('/api/processed-projects', {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(processedProjects)
-    });
-  }
-  
-  
-async function saveProjectDates() {
-    try {
 
+async function saveProjectDates() {
+    console.log('работает фнукция saveProjectDates')
+    try {
       editedDates.forEach((newDate, projectId) => {
         const project = projects.find(p => p.project_id === projectId);
         if (project) {
@@ -146,20 +214,14 @@ async function saveProjectDates() {
       if (!res.ok) throw new Error('Network response was not ok');
       
       // Успешно сохранено
-      editedDates.clear();
-      editMode = false;
-      
-      document.getElementById('editModeBtn').disabled = false;
-      document.getElementById('saveChangesBtn').disabled = true;
-      
-      renderProjectList();
+      editedDates.clear();      
             
     } catch (err) {
       console.error('Ошибка при сохранении дат:', err);
     }
   }
   
-async function loadProjects() {
+/*async function loadProjects() {
         try {
           const [projectsRes, statusRes, filesRes] = await Promise.all([
             fetch('projects_with_clients.json'),
@@ -175,7 +237,7 @@ async function loadProjects() {
         } catch (error) {
           console.error('Ошибка загрузки данных:', error);
         }
-      }
+      }*/
 function getTaskFiles(projectName, taskId) {
         const projectData = projectFiles.find(p => p.parentName === projectName);
         if (!projectData) return [];
@@ -218,9 +280,16 @@ function getStatusClass(status) {
     
     return statusMap[status] || 'status-unknown';
   }
-    // Рендер списка проектов
-    function renderProjectList() {
+// Рендер списка проектов
+function renderProjectList() {
+    console.log('работает фнукция renderProjectList')
         const container = document.getElementById('projectsContainer');
+        editDatesBtn = document.getElementById('editDatesBtn');
+        saveDatesBtn = document.getElementById('saveDatesBtn');
+        if (isProducer) {
+            editDatesBtn.style.display = ''
+            saveDatesBtn.style.display = ''
+        }
         container.innerHTML = '';
         
         projects.forEach(proj => {
@@ -229,7 +298,6 @@ function getStatusClass(status) {
           
           // Получаем текущую дату (из editedDates или из проекта)
           const currentDate = editedDates.get(proj.project_id) || proj.shoot_date || '';
-          
           let dateHTML;
           if (editMode) {
             // В режиме редактирования показываем input
@@ -265,13 +333,13 @@ function getStatusClass(status) {
               editedDates.set(proj.project_id, e.target.value);
             });
           }
-      
           container.appendChild(card);
         });
       }
       
     // Открытие экрана проекта
 function openProject(id) {
+    console.log('работает фнукция openProject')
         const proj = projects.find(p => p.project_id === id);
         if (!proj) return;
         currentProject = proj;
@@ -300,6 +368,7 @@ function openProject(id) {
     // Рендер задач в зависимости от stage
 // Рендер задач препродакшн
 async function renderPreTasks(proj) {
+    console.log('работает фнукция renderPreTasks')
     const preGrid = document.getElementById('preTasksContainer');
     preGrid.innerHTML = '';
   
@@ -420,6 +489,7 @@ async function renderPreTasks(proj) {
   
   
   function openTaskDetail(taskId, taskName, projectName) {
+    console.log('работает фнукция openTaskDetail')
     console.log('Открываем задачу:', taskId, taskName, projectName);
   
     // Получаем файлы для этой задачи
@@ -489,204 +559,136 @@ async function renderPreTasks(proj) {
     navigateToScreen('taskDetailScreen');
   }
   function renderTaskDetail(taskId, projectName) {
-    const { date, address, photo, photos = [] } = getTaskStatus(projectName, taskId);
-    const titleEl    = document.getElementById('taskDetailTitle');
-    const deadlineEl = document.getElementById('taskDeadline');
-    const linksEl    = document.getElementById('taskLinks');
-  
-    // Устанавливаем заголовок задачи
-    const taskMeta = [...PRE_TASKS, ...POST_TASKS].find(t => t.id === taskId);
-    titleEl.textContent = taskMeta ? taskMeta.name : 'Задача';
-  
-    // Дата
-    if (date) {
-      deadlineEl.textContent = `Дедлайн: ${date}`;
-      deadlineEl.style.display = 'block';
-    } else {
-      deadlineEl.style.display = 'none';
-    }
-    let lowerName = taskMeta.name
-    lowerName = lowerName.charAt(0).toLowerCase() + lowerName.slice(1);
-    if (lowerName === 'раскадровка') {
-    lowerName = 'сториборд';
-    }
-    if (lowerName === 'цветокоррекция') {
-        lowerName = 'цветокоррекцию';
-        }
-    if (lowerName === 'озвучка') {
-        lowerName = 'озвучку';
-        }
-    if (lowerName === 'cG') {
-        lowerName = 'CG';
-        }
-    // Определяем контейнер ссылок/контента
-    linksEl.innerHTML = '';
+    console.log('работает фнукция renderTaskDetail')
+    const { address, photo, photos = [] } = getTaskStatus(projectName, taskId);
+    const linksEl = document.getElementById('taskLinks');
+    // Показываем или скрываем кнопки
+    editDatesBtn.style.display = isProducer ? '' : 'none';
+    saveDatesBtn.style.display = isProducer ? '' : 'none';
+    editTasksBtn.style.display = isProducer ? '' : 'none';
+    saveTasksBtn.style.display = isProducer ? '' : 'none';
+    editTaskBtn.style.display = isProducer ? '' : 'none';
+    saveTaskBtn.style.display = isProducer ? '' : 'none';
     
-    // Для всех остальных задач — ссылки на файлы
-    const files = getTaskFiles(projectName, taskId);
-    if (files.length === 1) {
-      files.forEach(file => {
-        const a = document.createElement('a');
-        a.href = file.webViewLink;
-        a.target = '_blank';
-        a.rel = 'noopener noreferrer';
-        a.className = 'link-card';
-        a.innerHTML = `<p class="link-text">Ссылка на ${lowerName}</p>`;
-        linksEl.appendChild(a);
-      });
-    } else if (files.length > 1){
-        linksEl.innerHTML = `
-    <p style="color:#E94444; text-align:center;">
-      Ошибка⚠️ Невозможно получить файлы
-    </p>
-  `;
-    } else {
-        if ((taskMeta.name != 'Кастинг') && (taskMeta.name != 'Локация')){
-            linksEl.innerHTML = '<p style="color:#999;text-align:center;">Файлы не найдены</p>';
-        }
-    }
+    // Контейнер ссылок
+    linksEl.innerHTML = '';
   
-    // Если это Локация — отображаем адрес и одно фото
     if (taskId === 'location') {
-      const container = document.createElement('div');
-      container.className = 'location-container';
-      // Адрес
-      container.innerHTML = `<label>Адрес:</label>`;
-      if (editTaskMode) {
-        const inp = document.createElement('input');
-        inp.type = 'text';
-        inp.className = 'address-input';
-        inp.value = address;
-        inp.placeholder = 'Введите адрес';
-        inp.addEventListener('input', e =>
-          updateProcessedProject(projectName, taskId, { address: e.target.value })
-        );
-        container.appendChild(inp);
-      } else if (address) {
-        const p = document.createElement('p');
-        p.className = 'task-address';
-        p.textContent = address;
-        container.appendChild(p);
+        linksEl.innerHTML = ''; // очищаем контейнер
+      
+        if (isProducer && editTaskMode) {
+          // Режим редактирования: показываем <label> и <input> на одной строке
+          const container = document.createElement('div');
+          container.style.display = 'flex';
+          container.style.alignItems = 'center';
+      
+          const label = document.createElement('label');
+          label.textContent = 'Адрес: ';
+          label.style.marginRight = '8px';
+      
+          const inp = document.createElement('input');
+          inp.type = 'text';
+          inp.value = address || '';
+          inp.style.flex = '1';
+          inp.addEventListener('input', e =>
+            updateProcessedProject(projectName, taskId, { address: e.target.value })
+          );
+      
+          container.appendChild(label);
+          container.appendChild(inp);
+          linksEl.appendChild(container);
+        } else {
+          // Режим просмотра: один <p> с текстом
+          const p = document.createElement('p');
+          p.textContent = `Адрес: ${address || ''}`;
+          linksEl.appendChild(p);
+        }
+      
+        // Блок фото (тот же код)
+        const pPhoto = document.createElement('p');
+        pPhoto.textContent = 'Фото:';
+        linksEl.appendChild(pPhoto);
+      
+        const img = document.createElement('img');
+        img.className = 'photo-preview';
+        if (photo) img.src = photo;
+        linksEl.appendChild(img);
+      
+        if (isProducer && editTaskMode) {
+          const fileInp = document.createElement('input');
+          fileInp.type = 'file';
+          fileInp.accept = 'image/*';
+          fileInp.addEventListener('change', e => {
+            const file = e.target.files[0];
+            const reader = new FileReader();
+            reader.onload = () => {
+              updateProcessedProject(projectName, taskId, { photo: reader.result });
+              renderTaskDetail(taskId, projectName);
+            };
+            reader.readAsDataURL(file);
+          });
+          linksEl.appendChild(fileInp);
+        }
       }
       
-      // Фото
-      container.insertAdjacentHTML('beforeend', '<label>Фото:</label>');
-      const photoBlock = document.createElement('div');
-      photoBlock.className = 'photo-block';
-      const preview = document.createElement('img');
-      preview.className = 'photo-preview';
-      if (photo) preview.src = photo;
-      photoBlock.appendChild(preview);
-
-      if (editTaskMode) {
-        const delBtn = document.createElement('button');
-        delBtn.type = 'button';
-        delBtn.className = 'photo-delete-btn';
-        delBtn.textContent = '×';
-        delBtn.addEventListener('click', () => {
-          updateProcessedProject(projectName, taskId, { photo: '' });
-          renderTaskDetail(taskId, projectName);
-        });
-        photoBlock.appendChild(delBtn);
-  
+    else if (taskId === 'casting') {
+      const container = document.createElement('div');
+      container.className = 'casting-container';
+      container.innerHTML = '<h3>Фото согласованных актёров</h3>';
+      const list = document.createElement('div');
+      photos.forEach((src,i) => {
+        const block = document.createElement('div');
+        block.className = 'photo-block';
+        block.innerHTML = `<img src="${src}" class="photo-preview"/>`;
+        if (isProducer && editTaskMode) {
+          const btn = document.createElement('button');
+          btn.textContent = '×';
+          btn.addEventListener('click', () => {
+            const arr = [...photos];
+            arr.splice(i,1);
+            updateProcessedProject(projectName, 'casting', { photos: arr });
+            renderTaskDetail(taskId, projectName);
+          });
+          block.appendChild(btn);
+        }
+        list.appendChild(block);
+      });
+      if (isProducer && editTaskMode) {
+        const addBtn = document.createElement('button');
+        addBtn.textContent = 'Добавить фото';
+        addBtn.addEventListener('click', () => fileInp.click());
         const fileInp = document.createElement('input');
         fileInp.type = 'file';
         fileInp.accept = 'image/*';
-        fileInp.addEventListener('change', e => {
-          const file = e.target.files[0];
-          const reader = new FileReader();
-          reader.onload = () => {
-            updateProcessedProject(projectName, taskId, { photo: reader.result });
-            renderTaskDetail(taskId, projectName);
-          };
-          reader.readAsDataURL(file);
+        fileInp.multiple = true;
+        fileInp.style.display = 'none';
+        fileInp.addEventListener('change', async e => {
+          const filesData = await Promise.all(Array.from(e.target.files).map(f => new Promise(res => {
+            const r = new FileReader();
+            r.onload = () => res(r.result);
+            r.readAsDataURL(f);
+          })));
+          updateProcessedProject(projectName, 'casting', { photos: [...photos, ...filesData].slice(0,5) });
+          renderTaskDetail(taskId, projectName);
         });
+        container.appendChild(addBtn);
         container.appendChild(fileInp);
       }
-  
-      container.appendChild(photoBlock);
+      container.appendChild(list);
       linksEl.appendChild(container);
     }
-    if (taskId === 'casting') {
-        // Контейнер кастинга
-        const container = document.createElement('div');
-        container.className = 'casting-detail-container';
-        
-        // Заголовок всегда
-        container.innerHTML = `<h3>Фото согласованных актёров</h3>`;
-      
-        // Превью фото (всегда)
-        if (photos.length > 0) {
-          const previewsHtml = photos.map((src, i) => {
-            const removeBtn = editTaskMode 
-              ? `<button type="button" class="photo-remove-btn" data-index="${i}">×</button>`
-              : '';
-            return `
-              <div class="photo-preview-block">
-                <img src="${src}" class="photo-preview"/>
-                ${removeBtn}
-              </div>
-            `;
-          }).join('');
-          container.insertAdjacentHTML('beforeend', `
-            <div class="casting-photos-container">${previewsHtml}</div>
-          `);
-        } else {
-          container.insertAdjacentHTML('beforeend', `
-            <p style="color:#999;">Фото не загружены</p>
-          `);
-        }
-      
-        // Кнопки и input только в режиме редактирования
-        if (editTaskMode) {
-          container.insertAdjacentHTML('beforeend', `
-            <button id="addCastingPhotosBtn">Добавить фото</button>
-            <input type="file" accept="image/*" id="castingPhotoInput" multiple style="display:none">
-          `);
-        }
-      
-        linksEl.appendChild(container);
-      
-        // Навешиваем слушатели (только если editTaskMode)
-        if (editTaskMode) {
-          const input = document.getElementById('castingPhotoInput');
-          const addBtn = document.getElementById('addCastingPhotosBtn');
-      
-          addBtn.addEventListener('click', () => input.click());
-      
-          input.addEventListener('change', async e => {
-            const files = Array.from(e.target.files).slice(0,5);
-            const base64s = await Promise.all(files.map(f => new Promise(res => {
-              const r = new FileReader();
-              r.onload = () => res(r.result);
-              r.readAsDataURL(f);
-            })));
-            const existing = [...getTaskStatus(projectName,'casting').photos];
-            updateProcessedProject(projectName,'casting',{
-              photos: existing.concat(base64s).slice(0,5)
-            });
-            renderTaskDetail(taskId, projectName);
-          });
-      
-          container.querySelectorAll('.photo-remove-btn').forEach(btn => {
-            btn.addEventListener('click', e => {
-              const idx = +e.target.dataset.index;
-              const arr = [...getTaskStatus(projectName,'casting').photos];
-              arr.splice(idx,1);
-              updateProcessedProject(projectName,'casting',{ photos: arr });
-              renderTaskDetail(taskId, projectName);
-            });
-          });
-        }
-      
-        return;
-      }}
-      
+  }
   
   function renderTasks(proj) {
+    console.log('работает фнукция renderTasks')
     const grid = document.getElementById('tasksGrid');
     grid.innerHTML = '';
-  
+    editTasksBtn = document.getElementById('editTasksBtn');
+    saveTasksBtn = document.getElementById('saveTasksBtn');
+    if (isProducer) {
+        editTasksBtn.style.display = ''
+        saveTasksBtn.style.display = ''
+    }
     const tasksTemplate = proj.stage === 'препродакшн' ? PRE_TASKS : POST_TASKS;
   
     tasksTemplate.forEach(t => {
@@ -749,6 +751,7 @@ async function renderPreTasks(proj) {
   }
   
   function enableStatusEdit(el, projectName, taskId) {
+    console.log('работает фнукция enableStatusEdit')
     // Текущий текст
     const current = el.textContent.trim() === 'Статус не определён' ? null : el.textContent.trim();
   
@@ -775,6 +778,7 @@ async function renderPreTasks(proj) {
     select.focus();
   }
   function saveStatusEdit(select, originalP, projectName, taskId) {
+    console.log('работает фнукция saveStatusEdit')
     const newStatus = select.value || null;
     const date = newStatus ? new Date().toLocaleDateString('ru-RU') : null;
   
@@ -869,4 +873,4 @@ function calculateProgress(projectName, taskList) {
         return Math.round((currentWeight / maxWeight) * 100);
       }
     // Загрузка и запуск
-    document.addEventListener('DOMContentLoaded', loadProjects);
+document.addEventListener('DOMContentLoaded', loadProjects)

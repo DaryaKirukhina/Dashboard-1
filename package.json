@@ -3,10 +3,11 @@
   "version": "1.0.0",
   "main": "server.js",
   "scripts": {
-    "db":   "node database-formation.js",
-    "llm":  "node llm.js",
-    "drive":"node google.js",
-    "start":"npm run db && npm run llm && npm run drive && node server.js"
+    "db": "node database-formation.js",
+    "llm": "node llm.js",
+    "drive": "node google.js",
+    "start": "node server.js",
+    "schedule": "node scheduler.js"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.58.0",
@@ -19,6 +20,7 @@
     "lodash": "^4.17.21",
     "lowdb": "^7.0.1",
     "multer": "^1.4.5-lts.1",
+    "node-cron": "^4.2.1",
     "openai": "^6.2.0",
     "path": "^0.12.7",
     "sqlite3": "^5.1.6"

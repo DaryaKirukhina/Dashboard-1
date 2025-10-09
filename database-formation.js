@@ -27,6 +27,22 @@ async function runDb() {
           client_id,
           client_name,
           client_chat_id
+        ),
+        producer_id:producers!projects_producer_id_fkey(
+          producer_id,
+          producer_name,
+          producer_tg_chat_id
+        ),
+        producer2:producers!projects_producer2_fkey(
+          producer_id,
+          producer_name,
+          producer_tg_chat_id
+        ),
+        producer3:producers!projects_producer3_fkey(
+          producer_id,
+          producer_name,
+          producer_tg_chat_id
+
         )
       `);
 
