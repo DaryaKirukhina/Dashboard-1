@@ -44,12 +44,12 @@ async function loadProjects() {
       }
   
     // Определяем, продюсер ли пользователь
-    isProducer = allProjects.some(p =>
+    isProducer = currentTgId === admin || allProjects.some(p =>
         p.producer_id?.producer_tg_chat_id === currentTgId ||
         p.producer2?.producer_tg_chat_id === currentTgId ||
         p.producer3?.producer_tg_chat_id === currentTgId
       );
-      isClient = allProjects.some(p =>
+      isClient = currentTgId === admin || allProjects.some(p =>
         p.client1?.client_chat_id === currentTgId ||
         p.client2?.client_chat_id === currentTgId ||
         p.client3?.client_chat_id === currentTgId
