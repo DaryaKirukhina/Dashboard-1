@@ -7,7 +7,7 @@ const supabase = createClient(
   process.env.SUPABASE_ANON_KEY
 );
 
-(async function main() {
+async function runDb() {
   try {
     const { data: projects, error } = await supabase
       .from('projects')
@@ -42,4 +42,5 @@ const supabase = createClient(
   } catch (err) {
     console.error('Unexpected error:', err);
   }
-})();
+};
+runDb().catch(console.error);

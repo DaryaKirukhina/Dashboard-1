@@ -11,7 +11,11 @@
     padding: 0;
     box-sizing: border-box;
 }
-
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
 body {
     font-family: 'TT Hoves Pro', sans-serif;
     background-color: var(--tg-theme-bg-color, #ffffff);
@@ -188,6 +192,9 @@ body {
     height: 100px;
 }
 
+.status-select{
+    width: 130px;
+}
 .task-card:active {
     transform: scale(0.98);
     background: var(--tg-theme-hint-color, rgba(0, 0, 0, 0.05));
@@ -295,22 +302,6 @@ body {
     }
 }
 
-/* Dark theme support */
-@media (prefers-color-scheme: dark) {
-    body {
-        background-color: #1a1a1a;
-        color: #ffffff;
-    }
-
-    .project-card, .task-card, .actor-item {
-        background: #2a2a2a;
-        border-color: rgba(255, 255, 255, 0.1);
-    }
-
-    .progress-bar {
-        background-color: rgba(255, 255, 255, 0.1);
-    }
-}
 
 .task-status {
     margin-top: 4px;
@@ -425,4 +416,65 @@ body {
   .icon-img {
     width: 24px;
     height: 24px;
+  }
+
+/* Уже есть класс для статуса "waiting" */
+.status-in-approved {
+    color: #E94444; /* пример красного для Ждёт согласования⚠️ */
+  }
+  
+  /* Применяем тот же цвет к дате */
+  .task-date.date-waiting {
+    color: #E94444;
+    display: block;
+    margin-top: 4px;
+  }
+  .location-container {
+    margin-top: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .address-label {
+    font-weight: bold;
+    font-size: 16px;
+    color: #333;
+  }
+  
+  .address-input {
+    padding: 8px 12px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+  }
+  
+  .task-address {
+    padding: 8px 12px;
+    font-size: 16px;
+    color: #555;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    background: #f9f9f9;
+  }
+  .photo-preview {
+    width: 100%;
+    max-width: 300px;
+    height: auto;
+    margin-top: 8px;
+    border-radius: 8px;
+  }    
+  .photo-block {
+    position: relative;
+    margin-top: 12px;
+  }
+  
+  .photo-preview {
+    width: 100%;
+    max-width: 300px;
+    border-radius: 8px;
+  }
+  
+  html, body {
+    overflow-x: hidden;
   }

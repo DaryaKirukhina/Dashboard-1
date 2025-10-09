@@ -41,8 +41,7 @@ async function getFolderContents(drive, folderId) {
     files:   items.filter(i => i.mimeType !== 'application/vnd.google-apps.folder')
   };
 }
-
-(async () => {
+async function runDrive() {
     try {
       const drive = await getDriveClient();
   
@@ -97,10 +96,13 @@ async function getFolderContents(drive, folderId) {
         output.push(entry);
       }
   
-      fs.writeFileSync('output5.json', JSON.stringify(output, null, 2), 'utf-8');
-      console.log('Результат сохранён в output5.json');
+      fs.writeFileSync('./public/output.json', JSON.stringify(output, null, 2), 'utf-8');
+      console.log('Результат сохранён в output.json');
     } catch (err) {
       console.error('Ошибка в процессе:', err);
     }
-  })();
+  };
+
+runDrive().catch(console.error);
+
   

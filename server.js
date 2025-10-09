@@ -9,10 +9,19 @@ const STATUS_FILE = path.join(__dirname, 'public', 'processed_projects.json');
 const PROJECTS_FILE = path.join(__dirname, 'public', 'projects_with_clients.json');
 
 // Разрешаем парсить JSON-тела
-app.use(express.json());
+app.use(express.json({ limit: '10mb' }));
 
 // Отдаём статику из папки public
 app.use(express.static(path.join(__dirname, 'public')));
+app.get('/api/projects', (_,res)=> {
+    res.sendFile(path.join(__dirname,'public','projects_with_clients.json'));
+  });
+  app.get('/api/statuses', (_,res)=> {
+    res.sendFile(path.join(__dirname,'public','processed_projects.json'));
+  });
+  app.get('/api/output', (_,res)=> {
+    res.sendFile(path.join(__dirname,'public','output.json'));
+  });
 
 // Эндпоинт для получения статусов
 app.get('/api/processed-projects', async (req, res) => {
@@ -55,6 +64,6 @@ app.put('/api/projects', async (req, res) => {
   });
 
 // Запуск сервера
-app.listen(port, () => {
-  console.log(`Server running at http://localhost:${port}`);
-});
+app.listen(port, '0.0.0.0', () => {
+    console.log(`Server running at http://0.0.0.0:${port}`);
+  });

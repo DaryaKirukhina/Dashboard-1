@@ -18,12 +18,12 @@ const TASK_FIELDS = {
     casting: ['casting_client', 'casting_cult', 'casting_next_step'],
     location: ['location_client', 'location_cult', 'location_next_step'],
     props: ['props_client', 'props_cult', 'props_next_step'],
-    clothes: ['clothes_client', 'clothes_cult', 'clothes_next_step'],
+    wardrobe: ['clothes_client', 'clothes_cult', 'clothes_next_step'],
     editing: ['editing_client', 'editing_cult', 'editing_next_step'],
     voice: ['vo_client', 'vo_cult', 'vo_next_step'],
     music: ['music_client', 'music_cult', 'music_next_step'],
     color: ['colorgrading_client', 'colorgrading_cult', 'colorgrading_next_step'],
-    ProcessingPhotos: ['photos_client', 'photos_cult', 'photos_next_step'],
+    photos: ['photos_client', 'photos_cult', 'photos_next_step'],
     cg: ['cg_client', 'cg_cult', 'cg_next_step']
   };
 async function parseTaskStatus(taskName, values) {
@@ -39,6 +39,7 @@ async function parseTaskStatus(taskName, values) {
 
 У тебя есть данные для задачи "${taskName}":
 ${values.map(v => `- ${v.field}: ${v.text}`).join('\n')}
+
 
 Определи:
 1) статус: один из ["Утверждено","В работе","Ждёт согласования⚠️","На доработке"]
@@ -107,7 +108,7 @@ async function processProject(proj) {
   return summary;
 }
 
-async function main() {
+async function runLlm() {
   console.log('main: start processing', projects.length, 'projects');
   const output = [];
   for (const proj of projects) {
@@ -118,11 +119,11 @@ async function main() {
       console.error('main: error processing project', proj.project_name, e);
     }
   }
-  fs.writeFileSync('processed_projects.json', JSON.stringify(output, null, 2), 'utf-8');
+  fs.writeFileSync('./public/processed_projects.json', JSON.stringify(output, null, 2), 'utf-8');
   console.log('main: saved processed_projects.json');
 }
 
-main().catch(e => {
+runLlm().catch(e => {
   console.error('Unhandled error in main:', e);
   process.exit(1);
 });

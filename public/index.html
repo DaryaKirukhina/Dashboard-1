@@ -32,7 +32,6 @@
     <div class="screen" id="projectDetailScreen">
       <div class="header">
         <img src="./logo/arrow-fold-back.png" alt="Назад" class="back-btn" onclick="goBack()">
-        <h2 id="stageHeader"></h2>
         <div class="project-controls">
           <!-- Пара кнопок для редактирования статусов -->
           <button id="editTasksBtn" class="icon-btn" title="Редактировать">
@@ -43,6 +42,7 @@
           </button>
         </div>
       </div>
+      <h2 id="stageHeader"></h2>
       <!-- Pre-production Section -->
       <div class="section">
         <div class="section-header" onclick="toggleSection('pre')">
@@ -72,9 +72,19 @@
     <div class="screen" id="taskDetailScreen">
       <div class="header">
         <img src="./logo/arrow-fold-back.png" alt="Назад" class="back-btn" onclick="goBack()">
-        <h1 id="taskDetailTitle">Задача</h1>
+        <div class="project-controls">
+          <!-- Пара кнопок для редактирования статусов -->
+          <button id="editTaskBtn" class="icon-btn" title="Редактировать">
+            <img src="./logo/edit.png" alt="Редактировать" class="icon-img">
+          </button>
+          <button id="saveTaskBtn" class="icon-btn" title="Сохранить" disabled>
+            <img src="./logo/save.png" alt="Сохранить" class="icon-img">
+          </button>
+        </div>
         <!-- Можно добавить свои кнопки для этой страницы, если нужно -->
       </div>
+      
+      <h1 id="taskDetailTitle">Задача</h1>
       <div class="task-detail-content">
         <p id="taskDeadline" class="deadline"></p>
         <div id="taskLinks" class="link-section"></div>
