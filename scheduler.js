@@ -26,7 +26,7 @@ function runScript(scriptName) {
 
 console.log('Scheduler запущен в', new Date());
 
-cron.schedule('*/4 * * * *', async () => {
+cron.schedule("*/20 * * * *", async () => {
     console.log('Cron triggered в', new Date());
   try {
     await runScript('database-formation.js');
