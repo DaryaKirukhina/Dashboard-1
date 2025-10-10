@@ -1,9 +1,4 @@
 {
-    "functions": {
-      "api/cron.js": {
-        "runtime": "@vercel/node@2.16.0"
-      }
-    },
     "crons": [
       {
         "path": "/api/cron",
