@@ -29,9 +29,9 @@ let editMode = false, editTaskMode = false;
 async function loadProjects() {
     console.log('работает фнукция loadProjects')
     const [projectsRes, statusRes, filesRes] = await Promise.all([
-      fetch('projects_with_clients.json'),
-      fetch('processed_projects.json'),
-      fetch('output.json')
+        fetch('/api/projects'),
+        fetch('/api/statuses'),
+        fetch('/api/output')
     ]);
   
     const allProjects = await projectsRes.json();

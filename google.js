@@ -96,7 +96,7 @@ async function runDrive() {
         output.push(entry);
       }
   
-      fs.writeFileSync('./public/output.json', JSON.stringify(output, null, 2), 'utf-8');
+      fs.writeFileSync('./output.json', JSON.stringify(output, null, 2), 'utf-8');
       console.log('Результат сохранён в output.json');
     } catch (err) {
       console.error('Ошибка в процессе:', err);

@@ -119,7 +119,7 @@ async function runLlm() {
       console.error('main: error processing project', proj.project_name, e);
     }
   }
-  fs.writeFileSync('./public/processed_projects.json', JSON.stringify(output, null, 2), 'utf-8');
+  fs.writeFileSync('./processed_projects.json', JSON.stringify(output, null, 2), 'utf-8');
   console.log('main: saved processed_projects.json');
 }
 

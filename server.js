@@ -9,25 +9,19 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 // Путь к файлу со статусами
-const STATUS_FILE = path.join(__dirname, 'public', 'processed_projects.json');
-const PROJECTS_FILE = path.join(__dirname, 'public', 'projects_with_clients.json');
-const OUTPUT_FILE   = path.join(__dirname, 'public', 'output.json');
+const STATUS_FILE   = path.join(__dirname, 'processed_projects.json');
+const PROJECTS_FILE = path.join(__dirname, 'projects_with_clients.json');
+const OUTPUT_FILE   = path.join(__dirname, 'output.json');
 
 // Разрешаем парсить JSON-тела
 app.use(express.json({ limit: '10mb' }));
 
 // Отдаём статику из папки public
 app.use(express.static(path.join(__dirname, 'public')));
+app.get('/api/projects', (_, res) => res.sendFile(PROJECTS_FILE));
+app.get('/api/statuses', (_, res) => res.sendFile(STATUS_FILE));
+app.get('/api/output',   (_, res) => res.sendFile(OUTPUT_FILE));
 
-app.get('/api/projects', (_,res)=> {
-    res.sendFile(path.join(__dirname,'public','projects_with_clients.json'));
-  });
-app.get('/api/statuses', (_,res)=> {
-    res.sendFile(path.join(__dirname,'public','processed_projects.json'));
-  });
-app.get('/api/output', (_,res)=> {
-    res.sendFile(path.join(__dirname,'public','output.json'));
-  });
 
 app.get('/api/processed-projects', async (req, res) => {
   try {
@@ -75,7 +69,7 @@ function runScript(name) {
       proc.on('error', reject);
     });
   }
-cron.schedule("*/20 * * * *", async () => {
+cron.schedule('*/20 * * * *', async () => {
     console.log('Cron запуск в', new Date());
     try {
       await runScript('database-formation.js');
