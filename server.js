@@ -69,7 +69,7 @@ function runScript(name) {
       proc.on('error', reject);
     });
   }
-cron.schedule('*/20 * * * *', async () => {
+cron.schedule( "0 3 * * *", async () => {
     console.log('Cron запуск в', new Date());
     try {
       await runScript('database-formation.js');
