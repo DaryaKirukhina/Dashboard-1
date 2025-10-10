@@ -9,7 +9,7 @@ const openai = new OpenAI({
   baseURL: 'https://openrouter.ai/api/v1'
 });
 
-const projects = require('./public/projects_with_clients.json');
+const projects = require('./projects_with_clients.json');
 
 const TASK_FIELDS = {
     documents: ['doc', 'act', 'docs_status'],
