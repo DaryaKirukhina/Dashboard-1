@@ -9,7 +9,7 @@ const openai = new OpenAI({
   baseURL: 'https://openrouter.ai/api/v1'
 });
 
-const projects = require('./projects_with_clients.json');
+const projects = require('./public/projects_with_clients.json');
 
 const TASK_FIELDS = {
     documents: ['doc', 'act', 'docs_status'],
@@ -119,7 +119,7 @@ async function runLlm() {
       console.error('main: error processing project', proj.project_name, e);
     }
   }
-  fs.writeFileSync('./processed_projects.json', JSON.stringify(output, null, 2), 'utf-8');
+  fs.writeFileSync('./public/processed_projects.json', JSON.stringify(output, null, 2), 'utf-8');
   console.log('main: saved processed_projects.json');
 }
 

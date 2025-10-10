@@ -51,7 +51,7 @@ async function runDb() {
       return;
     }
 
-    const filePath = './projects_with_clients.json';
+    const filePath = './public/projects_with_clients.json';
     fs.writeFileSync(filePath, JSON.stringify(projects, null, 2), 'utf-8');
 
     console.log(`Данные сохранены в файл: ${filePath}`);

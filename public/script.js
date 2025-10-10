@@ -5,7 +5,7 @@ console.log('Using Telegram ID:', currentTgId);
 
 // 2. Функция фильтрации
 function filterProjectsByUser(allProjects, tgId) {
-    console.log('работает фнукция filterProjectsByUser')
+    console.log('работает функция filterProjectsByUser')
     return allProjects.filter(p => {
       // проверяем основного продюсера
       if (p.producer_id?.producer_tg_chat_id === tgId) return true;
@@ -29,9 +29,9 @@ let editMode = false, editTaskMode = false;
 async function loadProjects() {
     console.log('работает фнукция loadProjects')
     const [projectsRes, statusRes, filesRes] = await Promise.all([
-        fetch('/api/projects'),
-        fetch('/api/statuses'),
-        fetch('/api/output')
+        fetch('projects_with_clients.json'),
+        fetch('processed_projects.json'),
+        fetch('output.json')
     ]);
   
     const allProjects = await projectsRes.json();
