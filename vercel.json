@@ -1,7 +1,7 @@
 {
     "functions": {
       "api/cron.js": {
-        "runtime": "nodejs18.x"
+        "runtime": "@vercel/node@2.16.0"
       }
     },
     "crons": [
