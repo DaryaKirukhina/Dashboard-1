@@ -1,5 +1,5 @@
 const tg = window.Telegram.WebApp;
-const currentTgId = parseInt(tg.initDataUnsafe.user.id, 10);
+const currentTgId = 489599665;//parseInt(tg.initDataUnsafe.user.id, 10);
 let admin = 489599665;
 console.log('Using Telegram ID:', currentTgId);
 
@@ -99,10 +99,504 @@ let currentProject = null;
 let currentTaskId = null;
 let currentProjectName = null;
 
+function initCustomDropdowns() {
+    document.querySelectorAll('.custom-dropdown').forEach(dropdown => {
+      const newDropdown = dropdown.cloneNode(true);
+      dropdown.parentNode.replaceChild(newDropdown, dropdown);
+  
+      const trigger = newDropdown.querySelector('.dropdown-trigger');
+      const menu = newDropdown.querySelector('.dropdown-menu');
+      const selectedValue = newDropdown.querySelector('.selected-value');
+      const name = newDropdown.dataset.name;
+  
+      // По умолчанию отмечаем первый элемент
+      const firstItem = menu.querySelector('li');
+      if (firstItem && !menu.querySelector('li.selected')) {
+        firstItem.classList.add('selected');
+        selectedValue.textContent = firstItem.textContent;
+        data[name] = firstItem.dataset.value;
+      }
+  
+      trigger.addEventListener('click', e => {
+        e.stopPropagation();
+        document.querySelectorAll('.custom-dropdown').forEach(d => {
+          if (d !== newDropdown) d.classList.remove('open');
+        });
+        newDropdown.classList.toggle('open');
+      });
+  
+      menu.addEventListener('click', e => {
+        if (e.target.tagName === 'LI') {
+          const item = e.target;
+          menu.querySelectorAll('li').forEach(i => i.classList.remove('selected'));
+          item.classList.add('selected');
+          selectedValue.textContent = item.textContent;
+          data[name] = item.dataset.value;
+          newDropdown.classList.remove('open');
+        }
+      });
+  
+      document.addEventListener('click', e => {
+        if (!newDropdown.contains(e.target)) {
+          newDropdown.classList.remove('open');
+        }
+      });
+    });
+  }
+  
+  function fillConfirmation() {
+    const list = document.querySelector('.confirmation-list');
+    list.innerHTML = '';
+  
+    // Создаем карточки с иконками как на макете
+    const items = [
+      {
+        icon: '📊',
+        title: 'Частота статусов',
+        getValue: () => {
+          if (data.frequency === 'daily') return 'Каждый день в ' + (data.time || '12:00');
+          if (data.frequency === 'weekly') {
+            const days = data.days ? data.days.join(', ') : '';
+            return `Несколько раз в неделю (${days}) в ${data.time || '12:00'}`;  
+          }
+          return '';
+        }
+      },
+      {
+        icon: '📝',
+        title: 'Формат статусов',
+        getValue: () => data.format === 'short' ? 'Краткий' : 'Подробный'
+      },
+      {
+        icon: '⚡',
+        title: 'Время ответа (рабочие часы)',
+        getValue: () => {
+          const times = {
+            '15min': '15 минут',
+            '30min': '30 минут', 
+            '1hour': '1 час'
+          };
+          return times[data.responseTimeWork] || '';
+        }
+      },
+      {
+        icon: '🌙',
+        title: 'Время ответа (нерабочие часы)',
+        getValue: () => {
+          const times = {
+            '30min': '30 минут',
+            '1hour': '1 час',
+            'nextDay': 'на следующий рабочий день'
+          };
+          return times[data.responseTimeOff] || '';
+        }
+      },
+      {
+        icon: '🎯',
+        title: 'Писать в выходные',
+        getValue: () => {
+          const options = {
+            'urgent': 'Да, если срочно',
+            'no': 'Лучше не писать'
+          };
+          return options[data.weekend] || '';
+        }
+      },
+      {
+        icon: '✅',
+        title: 'Время на согласование',
+        getValue: () => {
+          const times = {
+            '24h': '24 часа',
+            '48h': '48 часов',
+            'day': 'В течение дня'
+          };
+          return times[data.approvalTime] || '';
+        }
+      },
+      {
+        icon: '🔕',
+        title: 'Не беспокоить',
+        getValue: () => `с ${data.quietFrom || '22:00'} до ${data.quietTo || '09:30'}`
+      },
+      {
+        icon: '🧪',
+        title: 'Бета-тестирование',
+        getValue: () => {
+          const options = {
+            'yes': 'Конечно, с удовольствием',
+            'later': 'Возможно, обсудим позже',
+            'no': 'Пока нет'
+          };
+          return options[data.testing] || '';
+        }
+      }
+    ];
+  
+    items.forEach(item => {
+      const value = item.getValue();
+      if (value) {
+        const itemDiv = document.createElement('div');
+        itemDiv.className = 'confirmation-item';
+        itemDiv.innerHTML = `
+          <div class="item-icon">${item.icon}</div>
+          <div class="item-content">
+            <div class="item-title">${item.title}</div>
+            <div class="item-value">${value}</div>
+          </div>
+        `;
+        list.appendChild(itemDiv);
+      }
+    });
+  }
+  const responseCodeToMin = {
+    '15min': 15,
+    '30min': 30,
+    '1hour': 60,
+    'nextDay': 24 * 60
+  };
+  function prepareDbRow(data) {
+    // минуты
+    const workMin = responseCodeToMin[data.responseTimeWork] ?? 0;
+    const offMin  = responseCodeToMin[data.responseTimeOff]  ?? 0;
+  
+    // московское HH:MM для текстовых колонок
+    const freqTimeMsk = toMoscowTime(data.time);
+    const quietFromMsk = toMoscowTime(data.quietFrom);
+    const quietToMsk   = toMoscowTime(data.quietTo);
+  
+    // строка часового пояса
+    const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+  
+    return {
+      client_id: currentTgId,
+      status_frequency_day: data.frequency === 'daily' ? 'daily' : data.days.join(','),
+  
+      status_frequency_time: `${freqTimeMsk}`,
+  
+      timezone: tz,
+  
+      format_status: data.format === 'short' ? 'короткий' : 'подробный',
+  
+      response_time_work: workMin,
+      response_time_off: offMin,
+  
+      weekend: data.weekend,
+      testing: data.testing,
+  
+      quiet_from: `${quietFromMsk}`,
+      quiet_to:   `${quietToMsk}`,
+  
+      approval_time: data.approvalTime  // текстово, например '24h'
+    };
+  }
+function toMoscowTime(hhmm) {
+    const [h, m] = hhmm.split(':').map(Number);
+    // текущее сегодня в минутах от полуночи
+    let total = h * 60 + m + deltaMin;
+    // нормализуем к 0–1439
+    total = (total % 1440 + 1440) % 1440;
+    const rh = String(Math.floor(total / 60)).padStart(2,'0');
+    const rm = String(total % 60).padStart(2,'0');
+    return `${rh}:${rm}`;
+  }
+  async function sendOnboardingData(row) {
+    try {
+      const res = await fetch('/api/onboarding', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(row)
+      });
+      if (!res.ok) {
+        throw new Error(`Ошибка сервера: ${res.status}`);
+      }
+      const result = await res.json();
+      console.log('Сервер вернул:', result);
+    } catch (err) {
+      console.error('Не удалось отправить данные:', err);
+    }
+  }
+  
+const userOffsetMin = new Date().getTimezoneOffset();
+const mskOffsetMin = -3 * 60;
+const deltaMin = mskOffsetMin - userOffsetMin;
+
+let data = {};
+let currentStep = 0;
+let steps = [];
 document.addEventListener('DOMContentLoaded', () => {
     tg.expand();
     setupEditControls();
-    loadProjects();
+    if (currentTgId === admin) {
+    steps = Array.from(document.querySelectorAll('.onboarding-step'));
+
+      const shortExample = `
+      <p style="color:#A6A6A6; font-size: 13px;">Пример статуса:</p>
+      <ul>
+        <li>📍 Документы — утверждено 01.09.</li>
+        <li>📍 Кастинг — в работе до 04.09.</li>
+        <li>📍 Локации — ждёт согласования до 05.09.</li>
+      </ul>
+    `;
+    const detailedExample = `
+  <p style="color:#A6A6A6; font-size: 13px;">Пример статуса:</p>
+  <p>Наши процессы</p>
+  <div>
+    <div class="li1">
+        <span>📍</span>
+        <span>Документы</span>
+    </div>
+    <p class="p2">Идет процесс согласования договора с клиентом.</p>
+  </div>
+    <div>
+    <div class="li1">
+        <span>📍</span>
+        <span>Сториборд</span>
+    </div>
+    <p class="p2">Ждем финальное утверждение с клиентом сегодня.</p>
+  </div>
+    <div>
+    <div class="li1">
+        <span>📍</span>
+        <span>Кастинг</span>
+    </div>
+    <p class="p2">Запустили сбор второй волны кастинга, пришлем 01.09 утром, ОС будем ждать 01.09 до вечера. Коллбек планируем на 02.09.</p>
+  </div>
+    <div>
+    <div class="li1">
+        <span>📍</span>
+        <span>Костюм</span>
+    </div>
+    <p class="p2">Обновленный мудборд пришлем сегодня, ОС ждем завтра 29.08.</p>
+  </div>
+    <div>
+    <div class="li1">
+        <span>📍</span>
+        <span>Декорации/локации</span>
+    </div>
+    <p class="p2">Продолжаем поиск локаций. Скаут — завтра 29.08. После — отправим варианты на согласование. Идеально получить ОС в день скаута (29.08), чтобы художник мог проработать эскизы в выходные. Если не получится — ждем ОС 01.09 (пн).</p>
+  </div>
+    <div>
+    <div class="li1">
+        <span>📍</span>
+        <span>Эскизы и реквизит</span>
+    </div>
+    <p class="p2">Бриф дадим в день согласования локаций. Эскизы готовим до вечера 02.09 и отправляем первую версию. ОС по эскизам ждем 03.09.</p>
+  </div>
+    <div>
+    <div class="li1">
+        <span>📍</span>
+        <span>AI-сцена</span>
+    </div>
+    <p class="p2">Начнем после утверждения локации, чтобы совпали материалы. Планируем закончить сцену к съемке — 10.09. Смету по зимней сцене пришлем сегодня.</p>
+  </div>
+`;
+    const showStep = idx => {
+      steps.forEach((s, i) => {
+        s.classList.toggle('active', i === idx);
+      });
+  
+      if (idx === 1) {
+        const radios = document.querySelectorAll('input[name="frequency"]');
+        const weekdays = document.querySelector('.weekdays');
+        weekdays.style.display = 'none';
+  
+        radios.forEach(radio => {
+          radio.addEventListener('change', () => {
+            if (radio.value === 'weekly' && radio.checked) {
+              weekdays.style.display = 'flex';
+            } else if (radio.value === 'daily' && radio.checked) {
+              weekdays.style.display = 'none';
+            }
+          });
+        });
+      }
+  
+      if (idx === 2) {
+        const formatOptions = steps[2].querySelectorAll('.format-option');
+        const exampleBox = steps[2].querySelector('.example-box');
+        exampleBox.innerHTML = shortExample;
+      
+        formatOptions.forEach(opt => {
+          const clone = opt.cloneNode(true);
+          opt.parentNode.replaceChild(clone, opt);
+        });
+      
+        const newFormatOptions = steps[2].querySelectorAll('.format-option');
+        newFormatOptions.forEach(option => {
+          option.addEventListener('click', () => {
+            newFormatOptions.forEach(o => o.classList.remove('active'));
+            option.classList.add('active');
+      
+            const value = option.dataset.value;
+            exampleBox.innerHTML = value === 'detailed' ? detailedExample : shortExample;
+          });
+        });
+      
+        if (data.format) {
+          const savedOption = steps[2].querySelector(`.format-option[data-value="${data.format}"]`);
+          if (savedOption) {
+            newFormatOptions.forEach(o => o.classList.remove('active'));
+            savedOption.classList.add('active');
+            exampleBox.innerHTML = data.format === 'detailed' ? detailedExample : shortExample;
+          }
+        }
+      }
+      if (idx === 3) {
+        initCustomDropdowns();
+        if (data.responseTimeWork) {
+          const workDropdown = steps[3].querySelector('[data-name="responseTimeWork"]');
+          const workMenu = workDropdown.querySelector('.dropdown-menu');
+          const workItem = workMenu.querySelector(`li[data-value="${data.responseTimeWork}"]`);
+          if (workItem) {
+            workMenu.querySelectorAll('li').forEach(i => i.classList.remove('selected'));
+            workItem.classList.add('selected');
+            workDropdown.querySelector('.selected-value').textContent = workItem.textContent;
+          }
+        }
+      
+        if (data.responseTimeOff) {
+          const offDropdown = steps[3].querySelector('[data-name="responseTimeOff"]');
+          const offMenu = offDropdown.querySelector('.dropdown-menu');
+          const offItem = offMenu.querySelector(`li[data-value="${data.responseTimeOff}"]`);
+          if (offItem) {
+            offMenu.querySelectorAll('li').forEach(i => i.classList.remove('selected'));
+            offItem.classList.add('selected');
+            offDropdown.querySelector('.selected-value').textContent = offItem.textContent;
+          }
+        }
+      }
+      if (idx === 6) {
+        initCustomDropdowns();
+      
+        // Восстановление состояния
+        if (data.quietFrom) {
+          const fromDropdown = steps[6].querySelector('[data-name="quietFrom"]');
+          const fromMenu = fromDropdown.querySelector('.dropdown-menu');
+          const fromItem = fromMenu.querySelector(`li[data-value="${data.quietFrom}"]`);
+          if (fromItem) {
+            fromMenu.querySelectorAll('li').forEach(i => i.classList.remove('selected'));
+            fromItem.classList.add('selected');
+            fromDropdown.querySelector('.selected-value').textContent = fromItem.textContent;
+          }
+        }
+      
+        if (data.quietTo) {
+          const toDropdown = steps[6].querySelector('[data-name="quietTo"]');
+          const toMenu = toDropdown.querySelector('.dropdown-menu');
+          const toItem = toMenu.querySelector(`li[data-value="${data.quietTo}"]`);
+          if (toItem) {
+            toMenu.querySelectorAll('li').forEach(i => i.classList.remove('selected'));
+            toItem.classList.add('selected');
+            toDropdown.querySelector('.selected-value').textContent = toItem.textContent;
+          }
+        }
+      }
+    };
+  
+    const collectData = idx => {
+        if (idx === 0) return;
+      
+        if (idx === 2) {
+          const activeFormat = steps[2].querySelector('.format-option.active');
+          if (activeFormat) {
+            data.format = activeFormat.dataset.value;
+          }
+      
+          const skipCheckbox = steps[2].querySelector('#skipDirections');
+          if (skipCheckbox) {
+            data.skipDirections = skipCheckbox.checked ? 'true' : 'false';
+          }
+          return;
+        }
+      
+        // Сбор данных из кастомных дропдаунов
+        if (idx === 3) {
+          const workDropdown = steps[3].querySelector('[data-name="responseTimeWork"]');
+          const workSelected = workDropdown.querySelector('.dropdown-menu li.selected');
+          if (workSelected) {
+            data.responseTimeWork = workSelected.dataset.value;
+          }
+      
+          const offDropdown = steps[3].querySelector('[data-name="responseTimeOff"]');
+          const offSelected = offDropdown.querySelector('.dropdown-menu li.selected');
+          if (offSelected) {
+            data.responseTimeOff = offSelected.dataset.value;
+          }
+          return;
+        }
+      
+        if (idx === 6) {
+          const fromDropdown = steps[6].querySelector('[data-name="quietFrom"]');
+          const fromSelected = fromDropdown.querySelector('.dropdown-menu li.selected');
+          if (fromSelected) {
+            data.quietFrom = fromSelected.dataset.value;
+          }
+      
+          const toDropdown = steps[6].querySelector('[data-name="quietTo"]');
+          const toSelected = toDropdown.querySelector('.dropdown-menu li.selected');
+          if (toSelected) {
+            data.quietTo = toSelected.dataset.value;
+          }
+          return;
+        }
+      
+        // Обычные input/select элементы
+        steps[idx].querySelectorAll('input, select').forEach(el => {
+          if (el.type === 'radio' && !el.checked) return;
+          if (el.type === 'checkbox') {
+            data[el.name] = data[el.name] || [];
+            if (el.checked) data[el.name].push(el.value);
+          } else {
+            data[el.name] = el.value;
+          }
+        });
+      };      
+  
+    document.body.addEventListener('click', e => {
+      if (e.target.matches('.btn-next')) {
+        if (currentStep === 0) {
+          currentStep = 1;
+          showStep(currentStep);
+          return;
+        }
+        if (currentStep === steps.length - 2) {
+          collectData(currentStep);
+          console.log(data)
+          const row = prepareDbRow(data);
+          console.log('Для вставки в БД:', row);
+          sendOnboardingData(row);
+          currentStep++;
+          showStep(currentStep);
+          setTimeout(() => {
+            document.getElementById('onboarding').style.display = 'none';
+            document.getElementById('projectListScreen').style.display = 'block';
+            loadProjects();
+          }, 1000);
+          return;
+        }
+        collectData(currentStep);
+        currentStep++;
+        showStep(currentStep);
+        if (currentStep === steps.length - 2) {
+          fillConfirmation();
+        }
+      }
+      if (e.target.matches('.btn-prev')) {
+        if (currentStep > 1) {
+          currentStep--;
+          showStep(currentStep);
+        }
+      }
+    });
+    console.log(data);
+    showStep(0);}
+    else{
+        document.getElementById('projectListScreen').style.display = 'block'
+        loadProjects();
+    }
   });
   
 console.log('Visible projects for user', currentTgId, projects);
@@ -407,7 +901,7 @@ async function renderPreTasks(proj) {
           </p>
           ${ts.date ? `<span class="task-date${isWaiting?' date-waiting':''}">
                          ${isWaiting?'ДО ':''}${ts.date}
-                       </span>` : ''}
+                       ` : ''}
         `;
       }
   
@@ -780,7 +1274,7 @@ async function renderPreTasks(proj) {
       card.innerHTML = `
         <h3>${t.name}</h3>
         ${statusHTML}
-        ${date ? `<span class="task-date">${date}</span>` : ''}
+        ${date ? `<span class="task-date">${date}` : ''}
       `;
   
       // Открытие карточки только в обычном режиме
@@ -932,4 +1426,4 @@ function calculateProgress(projectName, taskList) {
         return Math.round((currentWeight / maxWeight) * 100);
       }
     // Загрузка и запуск
-document.addEventListener('DOMContentLoaded', loadProjects)
+//document.addEventListener('DOMContentLoaded', loadProjects)

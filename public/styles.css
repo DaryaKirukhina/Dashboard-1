@@ -478,3 +478,1113 @@ body {
   html, body {
     overflow-x: hidden;
   }
+/* По умолчанию все шаги скрыты */
+.onboarding-step {
+    display: none;
+  }
+  
+  /* Только активный шаг показываем */
+  .onboarding-step.active {
+    display: block;
+  }
+  
+  /* Пока идёт онбординг, экран проектов скрыт */
+  #projectListScreen {
+    display: none;
+  }
+/* Контейнер онбординга */
+.onboarding-container {
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 0 20px;
+  }
+  
+  /* Шаги: по умолчанию скрыты, активный — показан */
+  .onboarding-step {
+    display: none;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    padding: 24px;
+    margin-bottom: 20px;
+  }
+  .onboarding-step.active {
+    display: block;
+  }
+  
+  /* Заголовки */
+  .onboarding-step h1 {
+    text-align: center;
+    margin-bottom: 8px;
+  }
+  .onboarding-step .subtitle {
+    text-align: center;
+    margin-bottom: 24px;
+  }
+  
+  /* Радиокнопки и чекбоксы в карточке */
+  .onboarding-step label {
+    display: block;
+    padding: 10px 5px;
+    cursor: pointer;
+    transition: border-color .2s, background-color .2s;
+  }
+  .onboarding-step label input {
+    margin-right: 12px;
+  }
+  .onboarding-step label:hover {
+    background-color: #F8FAFC;
+  }
+  .onboarding-step label input[type="radio"]:checked {
+    border-color: #000;
+  }
+
+  
+  /* Правильный способ: через добавление класса active на label */
+  .onboarding-step label.active {
+    border-color: #000;
+    background-color: #fff;
+  }
+  
+  /* Контейнер дней недели */
+  .weekdays {
+    display: flex;
+    flex-wrap: wrap;
+
+  }
+  
+  /* Timepicker */
+  .timepicker label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 16px;
+    color: #333;
+    border: none;    /* снимаем рамку */
+    padding: 0;       /* убираем отступы карточки */
+  }
+  .timepicker select {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1px solid #E2E8F0;
+    border-radius: 8px;
+    background: #fff;
+    font-size: 16px;
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg width='12' height='7' viewBox='0 0 12 7' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L6 6L11 1' stroke='%23666' stroke-width='2'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 16px center;
+    background-size: 12px 7px;
+  }
+  .timepicker {
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+  }
+  /* Кнопки */
+  .buttons {
+    display: flex;
+    gap: 12px;
+    margin-top: 15px;
+  }
+  .btn-prev, .btn-next {
+    flex: 1;
+    padding: 14px 0;
+    font-size: 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    border: none;
+  }
+  .btn-prev {
+    background: #fff;
+    color: #333;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+  }
+  .btn-prev:disabled {
+    opacity: 0.5;
+    cursor: default;
+  }
+  .btn-next {
+    background: #000;
+    color: #fff;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  }
+  
+  /* «Спасибо» */
+  .thank-you {
+    text-align: center;
+    padding: 40px 20px;
+  }
+  .thank-you .icon {
+    font-size: 48px;
+    display: block;
+    margin-bottom: 16px;
+  }
+  
+  /* Экран проектов скрыт до конца онбординга */
+  #projectListScreen {
+    display: none;
+  }
+    /* Стили для welcome-экрана */
+.welcome { text-align: center; padding: 40px 20px; }
+.welcome-logo { max-width: 120px; margin-bottom: 24px; }
+.welcome h2 { font-size: 28px; margin-bottom: 12px; }
+.welcome p { color: #666; margin-bottom: 24px; font-size: 16px; }
+.welcome-btn {
+  background: #000; color: #fff;
+  padding: 14px 24px; border:none; border-radius:12px;
+  font-size:16px; cursor:pointer;
+}
+/* Карточки для выбора формата */
+/* Контейнер для опции */
+/* Общие стили для шага */
+.onboarding-step[data-step="2"] {
+    padding: 24px;
+    margin: 0 auto;
+  }
+  
+  /* Заголовок и подзаголовок */
+  .onboarding-step[data-step="2"] h1 {
+    font-size: 28px;
+    text-align: center;
+    margin-bottom: 8px;
+  }
+  
+  .onboarding-step[data-step="2"] .subtitle {
+    font-size: 14px;
+    color: #666;
+    text-align: center;
+    margin-bottom: 24px;
+  }
+  
+  /* Карточки выбора формата */
+  .onboarding-step[data-step="2"] .format-options {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+  }
+  
+  .onboarding-step[data-step="2"] .format-option {
+    flex: 1;
+    padding: 13px;
+    border: 2px solid #E2E8F0;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    background: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  
+  .onboarding-step[data-step="2"] .format-option:hover {
+    background: #F8FAFC;
+    border-color: #CBD5E0;
+  }
+  
+  .onboarding-step[data-step="2"] .format-option.active {
+    background: #F4F4F4;
+    border-color: #000;
+  }
+  
+  .onboarding-step[data-step="2"] .format-option strong {
+    font-size: 18px;
+    margin-bottom: 4px;
+  }
+  
+  .onboarding-step[data-step="2"] .format-option p {
+    font-size: 14px;
+    color: #666;
+    margin: 0;
+  }
+  
+  .onboarding-step[data-step="2"] .example-label {
+    font-size: 14px;
+    color: #333;
+    margin-bottom: 8px;
+  }
+  
+  .onboarding-step[data-step="2"] .example-box {
+    background: white;
+    border: 1px solid #E2E8F0;
+    border-radius: 12px;
+    padding: 16px;
+  }
+  
+  .onboarding-step[data-step="2"] .example-box p {
+    font-size: 16px;
+    margin-bottom: 8px;
+  }
+  
+  .onboarding-step[data-step="2"] .example-box li {
+    font-size: 14px;
+    color: #333;
+    margin-bottom: 4px;
+  }
+  
+  /* Опция "Не присылать статусы..." */
+  .onboarding-step[data-step="2"] .extra-option {
+    display: flex;
+    align-items: center;
+  }
+  
+  
+  .onboarding-step[data-step="2"] .extra-option.active {
+    background: #F4F4F4;
+    border-radius: 12px;
+    padding: 12px 8px;
+  }
+  
+  /* Стили для чекбокса */
+  .onboarding-step[data-step="2"] .toggle-checkbox {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #CBD5E0;
+    border-radius: 12px;
+    position: relative;
+    cursor: pointer;
+    background: white;
+    transition: all 0.2s;
+  }
+  
+  .onboarding-step[data-step="2"] .toggle-checkbox:checked {
+    background: #000;
+    border-color: #000;
+  }
+  
+  .onboarding-step[data-step="2"] .toggle-checkbox:checked::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 8px;
+    height: 8px;
+    background: white;
+    border-radius: 12px;
+  }
+  
+  .onboarding-step[data-step="2"] .extra-option .label {
+    font-size: 16px;
+    color: #333;
+    margin: 0;
+  }
+  
+  .onboarding-step[data-step="2"] .btn-prev {
+    background: white;
+    color: #333;
+    border: 1px solid #E2E8F0;
+  }
+  
+  .onboarding-step[data-step="2"] .btn-prev:hover {
+    background: #F8FAFC;
+  }
+  
+  .onboarding-step[data-step="2"] .btn-next {
+    background: #000;
+    color: white;
+  }
+  
+  .onboarding-step[data-step="2"] .btn-next:hover {
+    background: #1a1a1a;
+  }
+  .onboarding-step[data-step="2"] .example-box ul {
+    list-style: none;
+    padding-left: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+  }
+  
+  .onboarding-step[data-step="2"] .example-box li {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  
+  .onboarding-step[data-step="2"] .example-box .marker {
+    font-size: 18px;
+    line-height: 1;
+  }
+  
+  .onboarding-step[data-step="2"] .example-box strong {
+    font-size: 14px;
+    color: #1e293b;
+    margin: 0;
+  }
+  
+  .onboarding-step[data-step="2"] .example-box li p {
+    font-size: 14px;
+    color: #475569;
+    margin: 0;
+    line-height: 1.4;
+  }
+
+.li1 {
+    display: flex;
+    gap: .5rem;
+    align-items: flex-start;
+    margin-bottom: .25rem;
+}
+.p2{
+    margin-left: 1.5rem;
+    color: #A6A6A6;
+}
+/* --- Шаг 3: Желаемое время ответа --- */
+/* --- Кастомный выпадающий список --- */
+/* --- Кастомный выпадающий список --- */
+
+.onboarding-step[data-step="3"] .custom-dropdown {
+    position: relative;
+    width: 100%;
+  }
+  
+  .onboarding-step[data-step="3"] .dropdown-trigger {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 16px;
+    background: white;
+    border: 1px solid #E2E8F0;
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 16px;
+    color: #333;
+    transition: border-color 0.2s;
+  }
+  
+  .onboarding-step[data-step="3"] .dropdown-trigger:hover {
+    border-color: #CBD5E0;
+  }
+  
+  .onboarding-step[data-step="3"] .dropdown-trigger:focus {
+    outline: none;
+    border-color: #000;
+    box-shadow: 0 0 0 2px rgba(0,0,0,0.1);
+  }
+  
+  .onboarding-step[data-step="3"] .arrow-icon {
+    font-size: 14px;
+    color: #666;
+    transition: transform 0.2s;
+  }
+  
+  /* При открытом меню — стрелка вверх */
+  .onboarding-step[data-step="3"] .custom-dropdown.open .arrow-icon {
+    transform: rotate(180deg);
+  }
+  
+  .onboarding-step[data-step="3"] .dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: white;
+    border: 1px solid #E2E8F0;
+    border-top: none;
+    border-radius: 0 0 8px 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    z-index: 10;
+    max-height: 200px;
+    overflow-y: auto;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    /* Убираем выход за границы */
+    transform: translateY(0);
+    will-change: transform;
+  }
+  
+  .onboarding-step[data-step="3"] .dropdown-menu li {
+    padding: 12px 16px 12px 40px; /* Отступ слева для галочки */
+    cursor: pointer;
+    font-size: 16px;
+    color: #333;
+    transition: background 0.2s;
+    position: relative;
+  }
+  
+  .onboarding-step[data-step="3"] .dropdown-menu li:hover {
+    background: #F8FAFC;
+  }
+  
+  .onboarding-step[data-step="3"] .dropdown-menu li.selected {
+    background: #F4F4F4;
+  }
+  
+  .onboarding-step[data-step="3"] .dropdown-menu li.selected::before {
+    content: '✓';
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-weight: bold;
+    color: #000;
+    font-size: 14px;
+  }
+  /* Показать меню */
+  .onboarding-step[data-step="3"] .custom-dropdown.open .dropdown-menu {
+    display: block;
+  }
+  /* --- Шаг 4: Можно ли писать в выходные? --- */
+
+.onboarding-step[data-step="4"] {
+    padding: 24px;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  
+  .onboarding-step[data-step="4"] h1 {
+    font-size: 28px;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 8px;
+  }
+  
+  .onboarding-step[data-step="4"] .subtitle {
+    font-size: 14px;
+    color: #666;
+    text-align: center;
+    margin-bottom: 24px;
+  }
+  
+  /* Карточки выбора */
+  .onboarding-step[data-step="4"] .weekend-options {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+  
+  .onboarding-step[data-step="4"] .weekend-option {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border: 2px solid #E2E8F0;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    background: white;
+  }
+  
+  .onboarding-step[data-step="4"] .weekend-option:hover {
+    background: #F8FAFC;
+    border-color: #CBD5E0;
+  }
+  
+  .onboarding-step[data-step="4"] .weekend-option input[type="radio"] {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #CBD5E0;
+    border-radius: 12px;
+    position: relative;
+    cursor: pointer;
+    background: white;
+    transition: all 0.2s;
+  }
+  
+  .onboarding-step[data-step="4"] .weekend-option input[type="radio"]:checked {
+    background: #000;
+    border-color: #000;
+  }
+  
+  .onboarding-step[data-step="4"] .weekend-option input[type="radio"]:checked::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 8px;
+    height: 8px;
+    background: white;
+    border-radius: 12px;
+  }
+  
+  .onboarding-step[data-step="4"] .weekend-option.active {
+    background: #F4F4F4;
+    border-color: #000;
+  }
+  
+  .onboarding-step[data-step="4"] .weekend-option .option-text {
+    font-size: 16px;
+    color: #333;
+    margin: 0;
+  }
+  
+  /* Кнопки */
+  .onboarding-step[data-step="4"] .buttons {
+    display: flex;
+    gap: 16px;
+    margin-top: 24px;
+  }
+  
+  .onboarding-step[data-step="4"] .btn-prev,
+  .onboarding-step[data-step="4"] .btn-next {
+    flex: 1;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 12px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  
+  .onboarding-step[data-step="4"] .btn-prev {
+    background: white;
+    color: #333;
+    border: 1px solid #E2E8F0;
+  }
+  
+  .onboarding-step[data-step="4"] .btn-prev:hover {
+    background: #F8FAFC;
+  }
+  
+  .onboarding-step[data-step="4"] .btn-next {
+    background: #000;
+    color: white;
+  }
+  
+  .onboarding-step[data-step="4"] .btn-next:hover {
+    background: #1a1a1a;
+  }
+  /* --- Шаг 5: Время на согласование --- */
+
+.onboarding-step[data-step="5"] {
+    padding: 24px;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  
+  .onboarding-step[data-step="5"] h1 {
+    font-size: 28px;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 8px;
+  }
+  
+  .onboarding-step[data-step="5"] .subtitle {
+    font-size: 14px;
+    color: #666;
+    text-align: center;
+    margin-bottom: 24px;
+  }
+  
+  /* Карточки выбора */
+  .onboarding-step[data-step="5"] .approval-options {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+  
+  .onboarding-step[data-step="5"] .approval-option {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border: 2px solid #E2E8F0;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    background: white;
+  }
+  
+  .onboarding-step[data-step="5"] .approval-option:hover {
+    background: #F8FAFC;
+    border-color: #CBD5E0;
+  }
+  
+  .onboarding-step[data-step="5"] .approval-option input[type="radio"] {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #CBD5E0;
+    border-radius: 50%;
+    position: relative;
+    cursor: pointer;
+    background: white;
+    transition: all 0.2s;
+  }
+  
+  .onboarding-step[data-step="5"] .approval-option input[type="radio"]:checked {
+    background: #000;
+    border-color: #000;
+  }
+  
+  .onboarding-step[data-step="5"] .approval-option input[type="radio"]:checked::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 8px;
+    height: 8px;
+    background: white;
+    border-radius: 50%;
+  }
+  
+  .onboarding-step[data-step="5"] .approval-option.active {
+    background: #F4F4F4;
+    border-color: #000;
+  }
+  
+  .onboarding-step[data-step="5"] .approval-option .option-text {
+    font-size: 16px;
+    color: #333;
+    margin: 0;
+  }
+  
+  /* Кнопки */
+  .onboarding-step[data-step="5"] .buttons {
+    display: flex;
+    gap: 16px;
+    margin-top: 24px;
+  }
+  
+  .onboarding-step[data-step="5"] .btn-prev,
+  .onboarding-step[data-step="5"] .btn-next {
+    flex: 1;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  
+  .onboarding-step[data-step="5"] .btn-prev {
+    background: white;
+    color: #333;
+    border: 1px solid #E2E8F0;
+  }
+  
+  .onboarding-step[data-step="5"] .btn-prev:hover {
+    background: #F8FAFC;
+  }
+  
+  .onboarding-step[data-step="5"] .btn-next {
+    background: #000;
+    color: white;
+  }
+  
+  .onboarding-step[data-step="5"] .btn-next:hover {
+    background: #1a1a1a;
+  }
+/* --- Шаг 6: Время тишины --- */
+
+.onboarding-step[data-step="6"] {
+    padding: 24px;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  
+  .onboarding-step[data-step="6"] h1 {
+    font-size: 28px;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 8px;
+  }
+  
+  .onboarding-step[data-step="6"] .subtitle {
+    font-size: 14px;
+    color: #666;
+    text-align: center;
+    margin-bottom: 24px;
+  }
+  
+  /* Контейнер времени */
+  .onboarding-step[data-step="6"] .quiet-time-container {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+  
+  /* Группы времени */
+  .onboarding-step[data-step="6"] .time-group {
+    display: flex;
+    align-items: center;
+  }
+  
+  .onboarding-step[data-step="6"] .group-label {
+    font-size: 16px;
+    color: #333;
+    font-weight: 600;
+    min-width: 30px;
+  }
+  
+  /* Кастомный выпадающий список */
+  .onboarding-step[data-step="6"] .custom-dropdown {
+    position: relative;
+    width: 100%;
+    max-width: 300px;
+  }
+  
+  .onboarding-step[data-step="6"] .dropdown-trigger {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 16px;
+    background: white;
+    border: 1px solid #E2E8F0;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    color: #333;
+    transition: border-color 0.2s;
+  }
+  
+  .onboarding-step[data-step="6"] .arrow-icon {
+    font-size: 14px;
+    color: #666;
+    transition: transform 0.2s;
+  }
+  
+  .onboarding-step[data-step="6"] .custom-dropdown.open .arrow-icon {
+    transform: rotate(180deg);
+  }
+  
+  .onboarding-step[data-step="6"] .dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: white;
+    border: 1px solid #E2E8F0;
+    border-top: none;
+    border-radius: 0 0 8px 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    z-index: 10;
+    max-height: 200px;
+    overflow-y: auto;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .onboarding-step[data-step="6"] .dropdown-menu li {
+    padding: 12px 16px 12px 40px;
+    cursor: pointer;
+    font-size: 16px;
+    color: #333;
+    transition: background 0.2s;
+    position: relative;
+  }
+  
+  
+  .onboarding-step[data-step="6"] .dropdown-menu li.selected {
+    background: #F4F4F4;
+    position: relative;
+  }
+  
+  .onboarding-step[data-step="6"] .dropdown-menu li.selected::before {
+    content: '✓';
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-weight: bold;
+    color: #000;
+    font-size: 14px;
+}
+  /* Кнопки */
+  .onboarding-step[data-step="6"] .buttons {
+    display: flex;
+    gap: 16px;
+    margin-top: 24px;
+  }
+  
+  .onboarding-step[data-step="6"] .btn-prev,
+  .onboarding-step[data-step="6"] .btn-next {
+    flex: 1;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  
+  .onboarding-step[data-step="6"] .btn-prev {
+    background: white;
+    color: #333;
+    border: 1px solid #E2E8F0;
+  }
+  
+  .onboarding-step[data-step="6"] .btn-next {
+    background: #000;
+    color: white;
+  }
+  .custom-dropdown.open .dropdown-menu {
+    display: block;
+  }
+  /* --- Шаг 7: Участие в тестах --- */
+
+.onboarding-step[data-step="7"] {
+    padding: 24px;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  
+  .onboarding-step[data-step="7"] h1 {
+    font-size: 28px;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 8px;
+  }
+  
+  .onboarding-step[data-step="7"] .subtitle {
+    font-size: 14px;
+    color: #666;
+    text-align: center;
+    margin-bottom: 24px;
+    line-height: 1.5;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  /* Карточки выбора */
+  .onboarding-step[data-step="7"] .testing-options {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 24px;
+  }
+  
+  .onboarding-step[data-step="7"] .testing-option {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border: 2px solid #E2E8F0;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    background: white;
+  }
+  
+  .onboarding-step[data-step="7"] .testing-option:hover {
+    background: #F8FAFC;
+    border-color: #CBD5E0;
+  }
+  
+  .onboarding-step[data-step="7"] .testing-option input[type="radio"] {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #CBD5E0;
+    border-radius: 50%;
+    position: relative;
+    cursor: pointer;
+    background: white;
+    transition: all 0.2s;
+  }
+  
+  .onboarding-step[data-step="7"] .testing-option input[type="radio"]:checked {
+    background: #000;
+    border-color: #000;
+  }
+  
+  .onboarding-step[data-step="7"] .testing-option input[type="radio"]:checked::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 8px;
+    height: 8px;
+    background: white;
+    border-radius: 50%;
+  }
+  
+  .onboarding-step[data-step="7"] .testing-option.active {
+    background: #F4F4F4;
+    border-color: #000;
+  }
+  
+  .onboarding-step[data-step="7"] .testing-option .option-text {
+    font-size: 16px;
+    color: #333;
+    margin: 0;
+    flex: 1;
+  }
+  
+  /* Кнопки */
+  .onboarding-step[data-step="7"] .buttons {
+    display: flex;
+    gap: 16px;
+    margin-top: 24px;
+  }
+  
+  .onboarding-step[data-step="7"] .btn-prev,
+  .onboarding-step[data-step="7"] .btn-next {
+    flex: 1;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  
+  .onboarding-step[data-step="7"] .btn-prev {
+    background: white;
+    color: #333;
+    border: 1px solid #E2E8F0;
+  }
+  
+  .onboarding-step[data-step="7"] .btn-prev:hover {
+    background: #F8FAFC;
+  }
+  
+  .onboarding-step[data-step="7"] .btn-next {
+    background: #000;
+    color: white;
+  }
+  
+  .onboarding-step[data-step="7"] .btn-next:hover {
+    background: #1a1a1a;
+  }
+/* --- Шаг 8: Подтверждение --- */
+
+.onboarding-step[data-step="8"] {
+    padding: 24px;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  
+  .onboarding-step[data-step="8"] h1 {
+    font-size: 28px;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 8px;
+  }
+  
+  .onboarding-step[data-step="8"] .subtitle {
+    font-size: 14px;
+    color: #666;
+    text-align: center;
+    margin-bottom: 24px;
+  }
+  
+  /* Список подтверждения */
+  .onboarding-step[data-step="8"] .confirmation-list {
+    background: white;
+    border: 1px solid #E2E8F0;
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 24px;
+  }
+  
+  .onboarding-step[data-step="8"] .confirmation-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 12px 0;
+  }
+  
+  .onboarding-step[data-step="8"] .confirmation-item .icon {
+    font-size: 20px;
+    line-height: 1;
+    color: #666;
+  }
+  
+  .onboarding-step[data-step="8"] .confirmation-item .content {
+    flex: 1;
+  }
+  
+  .onboarding-step[data-step="8"] .confirmation-item .title {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 4px;
+  }
+  
+  .onboarding-step[data-step="8"] .confirmation-item .value {
+    font-size: 16px;
+    color: #333;
+    font-weight: 600;
+  }
+  
+  /* Кнопки */
+  .onboarding-step[data-step="8"] .buttons {
+    display: flex;
+    gap: 16px;
+    margin-top: 24px;
+  }
+  
+  .onboarding-step[data-step="8"] .btn-prev,
+  .onboarding-step[data-step="8"] .btn-next {
+    flex: 1;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  
+  .onboarding-step[data-step="8"] .btn-prev {
+    background: white;
+    color: #333;
+    border: 1px solid #E2E8F0;
+  }
+  
+  .onboarding-step[data-step="8"] .btn-prev:hover {
+    background: #F8FAFC;
+  }
+  
+  .onboarding-step[data-step="8"] .btn-next {
+    background: #000;
+    color: white;
+  }
+  
+  .onboarding-step[data-step="8"] .btn-next:hover {
+    background: #1a1a1a;
+  }
+  .confirmation-list {
+    background: #fff;
+    border: 1px solid #E2E8F0;
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 32px;
+  }
+  
+  .confirmation-item {
+    display: flex;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid #F1F3F4;
+  }
+  
+  .confirmation-item:last-child {
+    border-bottom: none;
+  }
+  
+  .item-icon {
+    font-size: 24px;
+    margin-right: 12px;
+    flex-shrink: 0;
+  }
+  
+  .item-content {
+    flex: 1;
+  }
+  
+  .item-title {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 2px;
+  }
+  
+  .item-value {
+    font-size: 16px;
+    color: #000;
+    font-weight: 500;
+  }
+  

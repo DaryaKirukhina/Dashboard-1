@@ -1,5 +1,117 @@
 [
   {
+    "project_name": "Vkusvill // Почувствуй Новый Год",
+    "stage": "постпродакшн",
+    "documents": {
+      "status": "В работе",
+      "date": "14.10.2025"
+    },
+    "storyboard": {
+      "status": "На доработке",
+      "date": "25.09.2025"
+    },
+    "ai": {
+      "status": "Утверждено",
+      "date": "13.10.2025"
+    },
+    "casting": {
+      "status": "В работе",
+      "date": "25.09.2025"
+    },
+    "location": {
+      "status": "На доработке",
+      "date": "23.09.2025"
+    },
+    "props": {
+      "status": "В работе",
+      "date": "15.10.2025"
+    },
+    "wardrobe": {
+      "status": "В работе",
+      "date": "26.09.2025"
+    },
+    "editing": {
+      "status": "В работе",
+      "date": "15.10.2025"
+    },
+    "voice": {
+      "status": "Ждёт согласования⚠️",
+      "date": "13.10.2025"
+    },
+    "music": {
+      "status": "Ждёт согласования⚠️",
+      "date": "15.10.2025"
+    },
+    "color": {
+      "status": "На доработке",
+      "date": "08.10.2025"
+    },
+    "photos": {
+      "status": null,
+      "date": null
+    },
+    "cg": {
+      "status": "В работе",
+      "date": "13.10.2025"
+    }
+  },
+  {
+    "project_name": "Тестовый проектик // для Бота Антона",
+    "stage": "препродакшн",
+    "documents": {
+      "status": "Не начат",
+      "date": ""
+    },
+    "storyboard": {
+      "status": "Утверждено",
+      "date": "14.10.2025"
+    },
+    "ai": {
+      "status": "Утверждено",
+      "date": "14.10.2025"
+    },
+    "casting": {
+      "status": null,
+      "date": null
+    },
+    "location": {
+      "status": "В работе",
+      "date": ""
+    },
+    "props": {
+      "status": "В работе",
+      "date": "14.10.2025"
+    },
+    "wardrobe": {
+      "status": null,
+      "date": null
+    },
+    "editing": {
+      "status": null,
+      "date": null
+    },
+    "voice": {
+      "status": null,
+      "date": null
+    },
+    "music": {
+      "status": null,
+      "date": null
+    },
+    "color": {
+      "status": null,
+      "date": null
+    },
+    "photos": {
+      "status": null,
+      "date": null
+    },
+    "cg": {
+      "status": null,
+      "date": null
+    }
+  },
+  {
     "project_name": "Miratorg x TutkovBudkov // Золотой наггетс",
     "stage": "постпродакшн",
     "documents": {
@@ -7,12 +119,12 @@
       "date": "08.10.2025"
     },
     "storyboard": {
-      "status": "В работе",
-      "date": "09.10.2025"
+      "status": "Ждёт согласования⚠️",
+      "date": "14.10.2025"
     },
     "ai": {
-      "status": "В работе",
-      "date": "09.10.2025"
+      "status": "Ждёт согласования⚠️",
+      "date": "14.10.2025"
     },
     "casting": {
       "status": "Утверждено",
@@ -24,7 +136,7 @@
     },
     "props": {
       "status": "В работе",
-      "date": "09.10.2025"
+      "date": "14.10.2025"
     },
     "wardrobe": {
       "status": "Утверждено",
@@ -35,12 +147,12 @@
       "date": "09.10.2025"
     },
     "voice": {
-      "status": "Утверждено",
+      "status": "На доработке",
       "date": "07.10.2025"
     },
     "music": {
-      "status": "На доработке",
-      "date": "09.10.2025"
+      "status": "Утверждено",
+      "date": "14.10.2025"
     },
     "color": {
       "status": "Утверждено",
@@ -51,8 +163,8 @@
       "date": "09.10.2025"
     },
     "cg": {
-      "status": "В работе",
-      "date": "09.10.2025"
+      "status": "Ждёт согласования⚠️",
+      "date": "14.10.2025"
     }
   },
   {
@@ -80,7 +192,7 @@
     },
     "props": {
       "status": "В работе",
-      "date": "10.10.2025"
+      "date": "15.10.2025"
     },
     "wardrobe": {
       "status": "Утверждено",
@@ -112,6 +224,62 @@
     }
   },
   {
+    "project_name": "Росгосстрах",
+    "stage": "постпродакшн",
+    "documents": {
+      "status": "В работе",
+      "date": "09.10.2025"
+    },
+    "storyboard": {
+      "status": "Ждёт согласования⚠️",
+      "date": "15.10.2025"
+    },
+    "ai": {
+      "status": "Утверждено",
+      "date": "11.10.2025"
+    },
+    "casting": {
+      "status": null,
+      "date": null
+    },
+    "location": {
+      "status": null,
+      "date": null
+    },
+    "props": {
+      "status": null,
+      "date": null
+    },
+    "wardrobe": {
+      "status": null,
+      "date": null
+    },
+    "editing": {
+      "status": "В работе",
+      "date": "11.10.2025"
+    },
+    "voice": {
+      "status": "В работе",
+      "date": "03.10.2025"
+    },
+    "music": {
+      "status": "На доработке",
+      "date": "07.10.2025"
+    },
+    "color": {
+      "status": "Ждёт согласования⚠️",
+      "date": "24.09.2025"
+    },
+    "photos": {
+      "status": "В работе",
+      "date": "15.10.2025"
+    },
+    "cg": {
+      "status": "В работе",
+      "date": "15.10.2025"
+    }
+  },
+  {
     "project_name": "Сказочный робот",
     "stage": "препродакшн",
     "documents": {
@@ -120,7 +288,7 @@
     },
     "storyboard": {
       "status": "Ждёт согласования⚠️",
-      "date": "10.10.2025"
+      "date": "15.10.2025"
     },
     "ai": {
       "status": "Не могу определить статус",
@@ -135,7 +303,7 @@
       "date": ""
     },
     "props": {
-      "status": "Не могу определить статус",
+      "status": "Ждёт согласования⚠️",
       "date": ""
     },
     "wardrobe": {
@@ -148,7 +316,7 @@
     },
     "voice": {
       "status": "Утверждено",
-      "date": "10.10.2025"
+      "date": "15.10.2025"
     },
     "music": {
       "status": "Утверждено",
@@ -156,71 +324,15 @@
     },
     "color": {
       "status": "Ждёт согласования⚠️",
-      "date": "10.10.2025"
+      "date": "15.10.2025"
     },
     "photos": {
-      "status": "На доработке",
+      "status": "Утверждено",
       "date": "09.08.2025"
     },
     "cg": {
       "status": "Утверждено",
-      "date": "10.10.2025"
-    }
-  },
-  {
-    "project_name": "Росгосстрах",
-    "stage": "постпродакшн",
-    "documents": {
-      "status": "В работе",
-      "date": "09.10.2025"
-    },
-    "storyboard": {
-      "status": "В работе",
-      "date": "10.10.2025"
-    },
-    "ai": {
-      "status": "В работе",
-      "date": "10.10.2025"
-    },
-    "casting": {
-      "status": null,
-      "date": null
-    },
-    "location": {
-      "status": null,
-      "date": null
-    },
-    "props": {
-      "status": null,
-      "date": null
-    },
-    "wardrobe": {
-      "status": null,
-      "date": null
-    },
-    "editing": {
-      "status": "Утверждено",
-      "date": "07.10.2025"
-    },
-    "voice": {
-      "status": "В работе",
-      "date": "03.10.2025"
-    },
-    "music": {
-      "status": "В работе",
-      "date": "08.10.2025"
-    },
-    "color": {
-      "status": "Ждёт согласования⚠️",
-      "date": "24.09.2025"
-    },
-    "photos": {
-      "status": "Ждёт согласования⚠️",
-      "date": "10.10.2025"
-    },
-    "cg": {
-      "status": "Утверждено",
-      "date": "07.10.2025"
+      "date": "15.10.2025"
     }
   },
   {
@@ -228,10 +340,10 @@
     "stage": "постпродакшн",
     "documents": {
       "status": "Ждёт согласования⚠️",
-      "date": "10.10.2025"
+      "date": "15.10.2025"
     },
     "storyboard": {
-      "status": "В работе",
+      "status": "Ждёт согласования⚠️",
       "date": "12.09.2025"
     },
     "ai": {
@@ -252,7 +364,7 @@
     },
     "wardrobe": {
       "status": "В работе",
-      "date": "15.08.2025"
+      "date": "15.10.2025"
     },
     "editing": {
       "status": "Ждёт согласования⚠️",
@@ -263,7 +375,7 @@
       "date": "22.09.2025"
     },
     "music": {
-      "status": "В работе",
+      "status": "Ждёт согласования⚠️",
       "date": "23.09.2025"
     },
     "color": {
@@ -333,62 +445,6 @@
     "cg": {
       "status": null,
       "date": null
-    }
-  },
-  {
-    "project_name": "Vkusvill // Почувствуй Новый Год",
-    "stage": "постпродакшн",
-    "documents": {
-      "status": "В работе",
-      "date": "01.10.2025"
-    },
-    "storyboard": {
-      "status": "На доработке",
-      "date": "25.09.2025"
-    },
-    "ai": {
-      "status": "В работе",
-      "date": "08.10.2025"
-    },
-    "casting": {
-      "status": "В работе",
-      "date": "25.09.2025"
-    },
-    "location": {
-      "status": "На доработке",
-      "date": "23.09.2025"
-    },
-    "props": {
-      "status": "В работе",
-      "date": "10.10.2025"
-    },
-    "wardrobe": {
-      "status": "На доработке",
-      "date": "27.09.2025"
-    },
-    "editing": {
-      "status": "Утверждено",
-      "date": "08.10.2025"
-    },
-    "voice": {
-      "status": "В работе",
-      "date": "10.10.2025"
-    },
-    "music": {
-      "status": "В работе",
-      "date": "10.10.2025"
-    },
-    "color": {
-      "status": "На доработке",
-      "date": "08.10.2025"
-    },
-    "photos": {
-      "status": null,
-      "date": null
-    },
-    "cg": {
-      "status": "В работе",
-      "date": "10.10.2025"
     }
   }
 ]

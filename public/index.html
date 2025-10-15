@@ -12,12 +12,306 @@
 </header>
 <body>
   <div id="app">
-    <div class="screen" id="onboardingScreen" style="display: none;">
-      <div class="onboarding-container">
-        <h1>Настройка уведомлений</h1>
-        <!-- ваши формы онбординга -->
+    <div id="onboarding" class="onboarding-container">
+        <!-- Шаг 0: Приветствие -->
+      <div class="onboarding-step" data-step="0">
+        <div class="welcome">
+          <img src="./logo/LOGO_RGB_black.png" alt="Cult" class="welcome-logo">
+          <h2>Привет!</h2>
+          <p>Мы хотим сделать работу максимально комфортной — выберите, как вам удобнее получать статусы и согласовывать материалы.</p>
+          <button class="btn-next welcome-btn">Начать</button>
+        </div>
+      </div>
+
+      <!-- Шаг 0: Частота статусов -->
+      <div class="onboarding-step" data-step="1">
+        <h1>Как часто присылать статус?</h1>
+        <p class="subtitle">Выберите удобную для вас периодичность</p>
+        <label><input type="radio" name="frequency" value="daily">Каждый день</label>
+        <label><input type="radio" name="frequency" value="weekly">Несколько раз в неделю</label>
+  
+        <div class="weekdays" style="display: none;">
+          <label><input type="checkbox" name="days" value="Mon">Пн</label>
+          <label><input type="checkbox" name="days" value="Tue">Вт</label>
+          <label><input type="checkbox" name="days" value="Wed">Ср</label>
+          <label><input type="checkbox" name="days" value="Thu">Чт</label>
+          <label><input type="checkbox" name="days" value="Fri">Пт</label>
+          <label><input type="checkbox" name="days" value="Sat">Сб</label>
+          <label><input type="checkbox" name="days" value="Sun">Вс</label>
+        </div>
+  
+        <div class="timepicker">
+          <label>Во сколько присылать статус:</label>
+          <select name="time">
+            <option>08:00</option><option>08:30</option>
+            <option>09:00</option><option>09:30</option>
+            <option>10:00</option><option>10:30</option>
+            <option>11:00</option><option>11:30</option>
+            <option>12:00</option><option>12:30</option>
+            <option>13:00</option><option>13:30</option>
+            <option>14:00</option><option>14:30</option>
+            <option>15:00</option><option>15:30</option>
+            <option>16:00</option><option>16:30</option>
+            <option>17:00</option><option>17:30</option>
+            <option>18:00</option><option>18:30</option>
+            <option>19:00</option><option>19:30</option>
+            <option>20:00</option>
+          </select>
+        </div>
+  
+        <div class="buttons">
+          <button class="btn-prev" disabled>Назад</button>
+          <button class="btn-next">Далее</button>
+        </div>
+      </div>
+
+      <div class="onboarding-step" data-step="2">
+        <h1>Какой формат статусов вам удобнее?</h1>
+        <p class="subtitle">Выберите уровень детализации</p>
+      
+        <!-- Форматы статусов как карточки -->
+        <div class="format-options">
+          <div class="format-option" data-value="short">
+            <strong>Краткий</strong>
+            <p>Ключевые моменты списком</p>
+          </div>
+          <div class="format-option" data-value="detailed">
+            <strong>Подробный</strong>
+            <p>Развернутая информация</p>
+          </div>
+        </div>
+      
+        <div class="example-container">
+          <div class="example-box">
+            <p style="color:#A6A6A6; font-size: 13px;">Пример статуса:</p>
+            <p>Наши процессы</p>
+            <ul>
+              <li>📍 Документы — утверждено 01.09.</li>
+              <li>📍 Кастинг — в работе до 04.09.</li>
+              <li>📍 Локации — ждёт согласования до 05.09.</li>
+            </ul>
+          </div>
+        </div>
+      
+        <!-- Опция "Не присылать статусы..." как радио/чекбокс -->
+        <div class="extra-option" data-value="skipDirections">
+          <input type="checkbox" id="skipDirections" class="toggle-checkbox">
+          <label for="skipDirections" class="label">Не присылать статусы по отдельным направлениям</label>
+        </div>
+      
+        <!-- Кнопки внизу -->
+        <div class="buttons">
+          <button class="btn-prev">Назад</button>
+          <button class="btn-next">Далее</button>
+        </div>
+      </div>
+      <div class="onboarding-step" data-step="3">
+        <h1>Желаемое время ответа продюсера</h1>
+        <p class="subtitle">Укажите комфортное для вас время реакции</p>
+      
+        <!-- В рабочие часы -->
+        <div class="time-group">
+          <label class="group-label">В рабочие часы</label>
+          <div class="custom-dropdown" data-name="responseTimeWork">
+            <div class="dropdown-trigger">
+              <span class="selected-value">15 минут</span>
+              <span class="arrow-icon">▼</span>
+            </div>
+            <ul class="dropdown-menu">
+              <li data-value="15min">15 минут</li>
+              <li data-value="30min">30 минут</li>
+              <li data-value="1hour">1 час</li>
+            </ul>
+          </div>
+        </div>
+      
+        <!-- В нерабочие часы -->
+        <div class="time-group">
+          <label class="group-label">В нерабочие часы</label>
+          <div class="custom-dropdown" data-name="responseTimeOff">
+            <div class="dropdown-trigger">
+              <span class="selected-value">30 минут</span>
+              <span class="arrow-icon">▼</span>
+            </div>
+            <ul class="dropdown-menu">
+              <li data-value="30min">30 минут</li>
+              <li data-value="1hour">1 час</li>
+              <li data-value="nextDay">на следующий рабочий день</li>
+            </ul>
+          </div>
+        </div>
+      
+        <div class="buttons">
+          <button class="btn-prev">Назад</button>
+          <button class="btn-next">Далее</button>
+        </div>
+      </div>
+
+      <div class="onboarding-step" data-step="4">
+        <h1>Можно ли вам писать по рабочим вопросам в выходные?</h1>
+        <p class="subtitle">Выберите наиболее комфортный вариант</p>
+      
+        <!-- Карточки выбора -->
+        <div class="weekend-options">
+          <label class="weekend-option" data-value="urgent">
+            <input type="radio" name="weekend" value="urgent">
+            <span class="radio-icon"></span>
+            <span class="option-text">Да, если срочно</span>
+          </label>
+      
+          <label class="weekend-option" data-value="no">
+            <input type="radio" name="weekend" value="no">
+            <span class="radio-icon"></span>
+            <span class="option-text">Лучше не писать</span>
+          </label>
+        </div>
+      
+        <!-- Кнопки внизу -->
+        <div class="buttons">
+          <button class="btn-prev">Назад</button>
+          <button class="btn-next">Далее</button>
+        </div>
+      </div>
+      <div class="onboarding-step" data-step="5">
+        <h1>Время, которое нам лучше заложить на согласование материалов с вашей стороны</h1>
+        <p class="subtitle">Укажите комфортное время для согласования</p>
+      
+        <!-- Карточки выбора -->
+        <div class="approval-options">
+          <label class="approval-option" data-value="24h">
+            <input type="radio" name="approvalTime" value="24h">
+            <span class="radio-icon"></span>
+            <span class="option-text">24 часа</span>
+          </label>
+      
+          <label class="approval-option" data-value="48h">
+            <input type="radio" name="approvalTime" value="48h">
+            <span class="radio-icon"></span>
+            <span class="option-text">48 часов</span>
+          </label>
+      
+          <label class="approval-option" data-value="day">
+            <input type="radio" name="approvalTime" value="day">
+            <span class="radio-icon"></span>
+            <span class="option-text">В течение дня</span>
+          </label>
+        </div>
+      
+        <!-- Кнопки внизу -->
+        <div class="buttons">
+          <button class="btn-prev">Назад</button>
+          <button class="btn-next">Далее</button>
+        </div>
+      </div>
+
+      <div class="onboarding-step" data-step="6">
+        <h1>Во сколько не беспокоить?</h1>
+        <p class="subtitle">Укажите часы тишины, когда лучше не писать</p>
+      
+        <!-- Блок выбора времени -->
+        <div class="quiet-time-container">
+          <div class="time-group">
+            <label class="group-label">С</label>
+            <div class="custom-dropdown" data-name="quietFrom">
+              <div class="dropdown-trigger">
+                <span class="selected-value">22:00</span>
+                <span class="arrow-icon">▼</span>
+              </div>
+              <ul class="dropdown-menu">
+                <li data-value="20:00">20:00</li>
+                <li data-value="20:30">20:30</li>
+                <li data-value="21:00">21:00</li>
+                <li data-value="21:30">21:30</li>
+                <li data-value="22:00">22:00</li>
+                <li data-value="22:30">22:30</li>
+                <li data-value="23:00">23:00</li>
+                <li data-value="23:30">23:30</li>
+              </ul>
+            </div>
+          </div>
+      
+          <div class="time-group">
+            <label class="group-label">До</label>
+            <div class="custom-dropdown" data-name="quietTo">
+              <div class="dropdown-trigger">
+                <span class="selected-value">09:30</span>
+                <span class="arrow-icon">▼</span>
+              </div>
+              <ul class="dropdown-menu">
+                <li data-value="06:00">06:00</li>
+                <li data-value="06:30">06:30</li>
+                <li data-value="07:00">07:00</li>
+                <li data-value="07:30">07:30</li>
+                <li data-value="08:00">08:00</li>
+                <li data-value="08:30">08:30</li>
+                <li data-value="09:00">09:00</li>
+                <li data-value="09:30">09:30</li>
+                <li data-value="10:00">10:00</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      
+        <!-- Кнопки внизу -->
+        <div class="buttons">
+          <button class="btn-prev">Назад</button>
+          <button class="btn-next">Далее</button>
+        </div>
+      </div>
+    
+      <div class="onboarding-step" data-step="7">
+        <h1>Участие в тестах новых решений</h1>
+        <p class="subtitle">Мы постоянно создаём и тестируем новые технические решения для клиентов видеопродакшна — чтобы процесс был ещё удобнее и прозрачнее. Хотите получать ранний доступ и помогать нам улучшать сервис?</p>
+      
+        <!-- Карточки выбора -->
+        <div class="testing-options">
+          <label class="testing-option" data-value="yes">
+            <input type="radio" name="testing" value="yes">
+            <span class="radio-icon"></span>
+            <span class="option-text">Конечно, с удовольствием</span>
+          </label>
+      
+          <label class="testing-option" data-value="later">
+            <input type="radio" name="testing" value="later">
+            <span class="radio-icon"></span>
+            <span class="option-text">Возможно, обсудим позже</span>
+          </label>
+      
+          <label class="testing-option" data-value="no">
+            <input type="radio" name="testing" value="no">
+            <span class="radio-icon"></span>
+            <span class="option-text">Пока нет</span>
+          </label>
+        </div>
+      
+        <!-- Кнопки внизу -->
+        <div class="buttons">
+          <button class="btn-prev">Назад</button>
+          <button class="btn-next">Далее</button>
+        </div>
+      </div>
+
+      <div class="onboarding-step" data-step="8">
+        <h1>Всё верно?</h1>
+        <p class="subtitle">Проверьте выбранные параметры перед подтверждением</p>
+        <div class="confirmation-list">
+          <!-- JS динамически заполнит выбранные значения -->
+        </div>
+        <div class="buttons">
+          <button class="btn-prev">Изменить</button>
+          <button class="btn-next">Подтвердить</button>
+        </div>
+      </div>
+    
+      <div class="onboarding-step" data-step="9">
+        <div class="thank-you">
+          <span class="icon">✅</span>
+          <h2>Спасибо!</h2>
+          <p>Настройки сохранены. Продюсер будет отправлять статусы в выбранном формате. При необходимости вы сможете изменить параметры в клиентском дашборде.</p>
+        </div>
       </div>
     </div>
+
     <!-- Project List Screen -->
     <div class="screen active" id="projectListScreen">
       <div class="header">
