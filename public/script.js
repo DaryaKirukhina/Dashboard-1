@@ -1,21 +1,33 @@
 const tg = window.Telegram.WebApp;
-const currentTgId = parseInt(tg.initDataUnsafe.user.id, 10);
+const currentTgId = 489599665//parseInt(tg.initDataUnsafe.user.id, 10);
 let admin = 489599665;
 console.log('Using Telegram ID:', currentTgId);
 
-// 2. Функция фильтрации
+async function shouldShowOnboarding(tgId) {
+    const resClient = await fetch('/api/check-client', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ telegram_id: tgId })
+    });
+    const { exists: clientExists, client_id } = await resClient.json();
+    if (!clientExists) return false;
+  
+    const resSettings = await fetch('/api/check-settings', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ client_id })
+    });
+    const { exists: settingsExists } = await resSettings.json();
+    return !settingsExists;
+  }
+
 function filterProjectsByUser(allProjects, tgId) {
     console.log('работает функция filterProjectsByUser')
     return allProjects.filter(p => {
-      // проверяем основного продюсера
       if (p.producer_id?.producer_tg_chat_id === tgId) return true;
-      // проверяем основного клиента
       if (p.client1?.client_chat_id === tgId) return true;
-      // проверяем client2
       if (p.client2?.client_chat_id === tgId) return true;
-      // проверяем client3
       if (p.client3?.client_chat_id === tgId) return true;
-      // проверяем producer2 и producer3
       if (p.producer2?.producer_tg_chat_id === tgId) return true;
       if (p.producer3?.producer_tg_chat_id === tgId) return true;
       return false;
@@ -43,7 +55,6 @@ async function loadProjects() {
         projects = filterProjectsByUser(allProjects, currentTgId);
       }
   
-    // Определяем, продюсер ли пользователь
     isProducer = currentTgId === admin || allProjects.some(p =>
         p.producer_id?.producer_tg_chat_id === currentTgId ||
         p.producer2?.producer_tg_chat_id === currentTgId ||
@@ -148,7 +159,6 @@ function initCustomDropdowns() {
     const list = document.querySelector('.confirmation-list');
     list.innerHTML = '';
   
-    // Создаем карточки с иконками как на макете
     const items = [
       {
         icon: '📊',
@@ -256,16 +266,13 @@ function initCustomDropdowns() {
     'nextDay': 24 * 60
   };
   function prepareDbRow(data) {
-    // минуты
     const workMin = responseCodeToMin[data.responseTimeWork] ?? 0;
     const offMin  = responseCodeToMin[data.responseTimeOff]  ?? 0;
   
-    // московское HH:MM для текстовых колонок
     const freqTimeMsk = toMoscowTime(data.time);
     const quietFromMsk = toMoscowTime(data.quietFrom);
     const quietToMsk   = toMoscowTime(data.quietTo);
   
-    // строка часового пояса
     const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
   
     return {
@@ -292,9 +299,7 @@ function initCustomDropdowns() {
   }
 function toMoscowTime(hhmm) {
     const [h, m] = hhmm.split(':').map(Number);
-    // текущее сегодня в минутах от полуночи
     let total = h * 60 + m + deltaMin;
-    // нормализуем к 0–1439
     total = (total % 1440 + 1440) % 1440;
     const rh = String(Math.floor(total / 60)).padStart(2,'0');
     const rm = String(total % 60).padStart(2,'0');
@@ -326,10 +331,11 @@ const deltaMin = mskOffsetMin - userOffsetMin;
 let data = {};
 let currentStep = 0;
 let steps = [];
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
     tg.expand();
     setupEditControls();
-    if (currentTgId === admin) {
+    const showOnboard = await shouldShowOnboarding(currentTgId);
+    if (showOnboard) {
     steps = Array.from(document.querySelectorAll('.onboarding-step'));
 
       const shortExample = `
